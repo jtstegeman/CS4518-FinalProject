@@ -34,7 +34,7 @@ public class CrowFliesETAEstimatorTest {
         founders.setLatitude(42.2731908);
         founders.setLongitude(-71.8052753);
 
-        double distance = 321.59;
+        double distance = 321.59 * Math.PI / 2.0;
 
         double speed = 1.4;
 

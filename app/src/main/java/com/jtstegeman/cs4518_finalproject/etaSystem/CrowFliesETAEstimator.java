@@ -9,7 +9,7 @@ import android.location.Location;
 public class CrowFliesETAEstimator implements ETAEstimator {
     @Override
     public int calculateTravelTime(Location target, Location current, UserActivity activity) {
-        double distance = current.distanceTo(target);
+        double distance = current.distanceTo(target) * Math.PI / 2.0; // Used to estimate non-linear distance within 2 standard deviations
         double speedMetersPerSecond;
         switch (activity){
             case WALKING:
