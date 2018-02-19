@@ -27,6 +27,9 @@ public class CrowFliesETAEstimator implements ETAEstimator {
             default:
                 speedMetersPerSecond = 0;
         }
+        if(target.getSpeed() != 0){
+            speedMetersPerSecond = target.getSpeed();
+        }
         return speedMetersPerSecond == 0 ? Integer.MAX_VALUE : (int) Math.round(distance / speedMetersPerSecond);
     }
 }

@@ -15,6 +15,7 @@ import java.util.Map;
 public class ETALearningSystem {
 
     public static String WALKING_SPEED_PREF = "pref_walking_speed";
+    // TODO: add more speeds
 
     private ETALearner mETALearner;
 
