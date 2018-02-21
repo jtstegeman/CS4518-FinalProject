@@ -135,14 +135,14 @@ public class AddAlarm extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void editAlarm(View v){
+    public void editAlarm(){
 
         FragmentManager manager = getFragmentManager();
 
 
     }
 
-    public void editTime(View v){
+    public void editTime(){
         FragmentManager manager = getFragmentManager();
         DatePickerFragment dialog = DatePickerFragment
                 .newInstance(alarm.getTime());
