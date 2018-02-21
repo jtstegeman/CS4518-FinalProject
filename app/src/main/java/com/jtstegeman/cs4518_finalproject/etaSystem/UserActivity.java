@@ -5,5 +5,21 @@ package com.jtstegeman.cs4518_finalproject.etaSystem;
  */
 
 public enum UserActivity {
-    WALKING, RUNNING, STATIONARY, BIKING, DRIVING
+
+    WALKING(1.4F),
+    RUNNING(3.0F),
+    STATIONARY(0.0F),
+    BIKING(10.0F),
+    DRIVING(20.0F);
+
+
+    private float defaultSpeed;
+
+    UserActivity(float defaultSpeed) {
+        this.defaultSpeed = defaultSpeed;
+    }
+
+    public float getDefaultSpeed() {
+        return defaultSpeed;
+    }
 }

@@ -1,6 +1,10 @@
 package com.jtstegeman.cs4518_finalproject.etaSystem;
 
+import android.content.SharedPreferences;
 import android.location.Location;
+
+import com.jtstegeman.cs4518_finalproject.etaSystem.learning.ETALearningSystem;
+import com.jtstegeman.cs4518_finalproject.etaSystem.learning.ExponentialMovingAverageLearner;
 
 /**
  * Created by kyle on 2/15/18.
@@ -9,13 +13,17 @@ import android.location.Location;
 public class ETASystem {
 
     private ETAEstimator mETAEstimator;
+    private ETALearningSystem mETALearner;
+    private SharedPreferences prefs;
 
     /**
      * A system which calculates the ETA time to a given location.
      * @param ETAEstimator
      */
-    public ETASystem(ETAEstimator ETAEstimator) {
+    public ETASystem(ETAEstimator ETAEstimator, SharedPreferences prefs) {
         mETAEstimator = ETAEstimator;
+        this.prefs = prefs;
+        this.mETALearner = new ETALearningSystem(new ExponentialMovingAverageLearner(0.5F), prefs);
     }
 
     /**
@@ -34,6 +42,9 @@ public class ETASystem {
      * @return The time in seconds until the user arrives at the target location.
      */
     public int calculateTravelTime(Location target, Location current, UserActivity activity){
-        return mETAEstimator.calculateTravelTime(target, current, activity);
+        if(current.hasSpeed() && activity != UserActivity.STATIONARY){
+            mETALearner.learn(current.getSpeed(), activity);
+        }
+        return mETAEstimator.calculateTravelTime(target, current, activity, prefs);
     }
 }

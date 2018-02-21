@@ -1,5 +1,6 @@
 package com.jtstegeman.cs4518_finalproject.etaSystem;
 
+import android.content.SharedPreferences;
 import android.location.Location;
 
 /**
@@ -8,27 +9,25 @@ import android.location.Location;
 
 public class CrowFliesETAEstimator implements ETAEstimator {
     @Override
-    public int calculateTravelTime(Location target, Location current, UserActivity activity) {
+    public int calculateTravelTime(Location target, Location current, UserActivity activity, SharedPreferences preferences) {
         double distance = current.distanceTo(target) * Math.PI / 2.0; // Used to estimate non-linear distance within 2 standard deviations
         double speedMetersPerSecond;
+
         switch (activity){
             case WALKING:
-                speedMetersPerSecond = 1.4;
+                speedMetersPerSecond = preferences.getFloat(ETASpeedPrefs.WALKING_SPEED_PREF, UserActivity.WALKING.getDefaultSpeed());
                 break;
             case RUNNING:
-                speedMetersPerSecond = 3;
+                speedMetersPerSecond = preferences.getFloat(ETASpeedPrefs.RUNNING_SPEED_PREF, UserActivity.RUNNING.getDefaultSpeed());
                 break;
             case BIKING:
-                speedMetersPerSecond = 10;
+                speedMetersPerSecond = preferences.getFloat(ETASpeedPrefs.BIKING_SPEED_PREF, UserActivity.BIKING.getDefaultSpeed());
                 break;
             case DRIVING:
-                speedMetersPerSecond = 20;
+                speedMetersPerSecond = preferences.getFloat(ETASpeedPrefs.DRIVING_SPEED_PREF, UserActivity.DRIVING.getDefaultSpeed());
                 break;
             default:
-                speedMetersPerSecond = 0;
-        }
-        if(target.getSpeed() != 0){
-            speedMetersPerSecond = target.getSpeed();
+                speedMetersPerSecond = UserActivity.STATIONARY.getDefaultSpeed();
         }
         return speedMetersPerSecond == 0 ? Integer.MAX_VALUE : (int) Math.round(distance / speedMetersPerSecond);
     }

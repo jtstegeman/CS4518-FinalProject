@@ -3,6 +3,7 @@ package com.jtstegeman.cs4518_finalproject.etaSystem.learning;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.jtstegeman.cs4518_finalproject.etaSystem.ETASpeedPrefs;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 
 import java.util.HashMap;
@@ -14,9 +15,6 @@ import java.util.Map;
 
 public class ETALearningSystem {
 
-    public static String WALKING_SPEED_PREF = "pref_walking_speed";
-    // TODO: add more speeds
-
     private ETALearner mETALearner;
 
     private Map<UserActivity, Float> speeds;
@@ -26,7 +24,10 @@ public class ETALearningSystem {
     public ETALearningSystem(ETALearner etaLearner, SharedPreferences preferences) {
         mETALearner = etaLearner;
         speeds = new HashMap<>();
-        speeds.put(UserActivity.WALKING, preferences.getFloat(WALKING_SPEED_PREF, 1.4f));
+        speeds.put(UserActivity.WALKING, preferences.getFloat(ETASpeedPrefs.WALKING_SPEED_PREF, UserActivity.WALKING.getDefaultSpeed()));
+        speeds.put(UserActivity.RUNNING, preferences.getFloat(ETASpeedPrefs.RUNNING_SPEED_PREF, UserActivity.RUNNING.getDefaultSpeed()));
+        speeds.put(UserActivity.DRIVING, preferences.getFloat(ETASpeedPrefs.DRIVING_SPEED_PREF, UserActivity.DRIVING.getDefaultSpeed()));
+        speeds.put(UserActivity.BIKING, preferences.getFloat(ETASpeedPrefs.BIKING_SPEED_PREF, UserActivity.BIKING.getDefaultSpeed()));
         prefs = preferences;
     }
 
@@ -57,7 +58,13 @@ public class ETALearningSystem {
     private String getPrefNameOfActivity(UserActivity activity){
         switch (activity){
             case WALKING:
-                return WALKING_SPEED_PREF;
+                return ETASpeedPrefs.WALKING_SPEED_PREF;
+            case RUNNING:
+                return ETASpeedPrefs.RUNNING_SPEED_PREF;
+            case BIKING:
+                return ETASpeedPrefs.BIKING_SPEED_PREF;
+            case DRIVING:
+                return ETASpeedPrefs.DRIVING_SPEED_PREF;
         }
         return "";
     }
