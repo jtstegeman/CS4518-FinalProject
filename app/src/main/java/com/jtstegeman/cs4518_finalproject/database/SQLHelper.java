@@ -14,7 +14,7 @@ import static com.jtstegeman.cs4518_finalproject.database.AlarmObject.DB_ALARM_T
 public class SQLHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "AlarmSQLHelper";
-    private static final int VERSION = 7;
+    private static final int VERSION = 8;
     private static final String DATABASE_NAME = "alarmsbase.db";
 
     public SQLHelper(Context context) {
@@ -29,6 +29,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 AlarmObject.DB_EXTRA_TIME + ", " +
                 AlarmObject.DB_LAT + ", " +
                 AlarmObject.DB_LNG + ", " +
+                AlarmObject.DB_NOTI_STATE + ", " +
                 AlarmObject.DB_LOCATION + ", " +
                 AlarmObject.DB_NAME +
                 ")"

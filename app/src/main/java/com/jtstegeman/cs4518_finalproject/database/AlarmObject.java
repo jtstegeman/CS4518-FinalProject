@@ -14,13 +14,20 @@ public class AlarmObject {
     public static final String DB_LOCATION = "loc";
     public static final String DB_TIME = "time";
     public static final String DB_EXTRA_TIME = "buftime";
+    public static final String DB_NOTI_STATE = "nots";
+
+    public static final int NO_NOTIFICATIONS = 0;
+    public static final int WARNING_5_MIN = 1;
+    public static final int WARNING_1_MIN = 3;
+    public static final int WARNING_LATE = 7;
 
     private String name = "Default Name";
     private double latitude = 42.274456;
     private double longitude = -71.806722;
     private String location = "";
     private Date time = new Date(System.currentTimeMillis()+60000*60*24);
-    private long bufferTime = 5;
+    private long bufferTime = 5*60000;
+    private int notificationState=0;
 
     public AlarmObject(String name) {
         this.name = name;
@@ -72,6 +79,14 @@ public class AlarmObject {
 
     public long getBufferTime_min() {
         return bufferTime/60000;
+    }
+
+    public int getNotificationState() {
+        return notificationState;
+    }
+
+    public void setNotificationState(int notificationState) {
+        this.notificationState = notificationState;
     }
 
     public void setBufferTime_ms(long bufferTime) {

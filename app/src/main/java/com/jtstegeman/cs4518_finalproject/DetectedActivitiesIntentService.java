@@ -5,15 +5,20 @@ package com.jtstegeman.cs4518_finalproject;
  */
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
+import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 
 import java.util.ArrayList;
 
 public class DetectedActivitiesIntentService extends IntentService {
+
+    private static UserActivity lastAcivity=null;
 
     public static final String INTENT_STR = "activity_intent";
     protected static final String TAG = DetectedActivitiesIntentService.class.getSimpleName();
@@ -54,8 +59,36 @@ public class DetectedActivitiesIntentService extends IntentService {
     }
 
     private void broadcastActivity(DetectedActivity activity) {
+        UserActivity lastKnownActivity = UserActivity.STATIONARY;
+        if (activity.getType()==DetectedActivity.STILL){
+            lastKnownActivity = UserActivity.STATIONARY;
+        } else if (activity.getType()==DetectedActivity.WALKING){
+            lastKnownActivity = UserActivity.WALKING;
+        } else if (activity.getType()==DetectedActivity.RUNNING){
+            lastKnownActivity = UserActivity.RUNNING;
+        } else if (activity.getType()==DetectedActivity.IN_VEHICLE){
+            lastKnownActivity = UserActivity.DRIVING;
+        } else if (activity.getType()==DetectedActivity.ON_BICYCLE){
+            lastKnownActivity = UserActivity.BIKING;
+        }
+        setCurrentActivity(this, lastKnownActivity);
         Intent intent = new Intent(INTENT_STR);
         intent.putExtra("type", activity.getType());
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+    public static void setCurrentActivity(Context ctx, UserActivity acivity){
+        lastAcivity = acivity;
+        SharedPreferences settings = ctx.getSharedPreferences("App", Context.MODE_PRIVATE);
+        settings.edit().putString("curSpeed", acivity.name());
+    }
+
+    public static UserActivity getCurrentActivity(Context ctx){
+        if (lastAcivity!=null){
+            return lastAcivity;
+        }
+        SharedPreferences settings = ctx.getSharedPreferences("App", Context.MODE_PRIVATE);
+        lastAcivity = UserActivity.valueOf(settings.getString("curSpeed","STATIONARY"));
+        return lastAcivity;
     }
 }

@@ -43,6 +43,13 @@ public class AlarmHelper {
                 new String[] { alarm.getName() });
     }
 
+    public void delete(AlarmObject alarm) {
+        ContentValues values = getContentValues(alarm);
+        db.delete(AlarmObject.DB_ALARM_TABLE,
+                AlarmObject.DB_NAME + " = ?",
+                new String[] { alarm.getName() });
+    }
+
     public void write(AlarmObject alarm){
         if (get(alarm.getName())==null){
             create(alarm);
@@ -109,6 +116,7 @@ public class AlarmHelper {
         values.put(AlarmObject.DB_LOCATION, alarm.getLocation());
         values.put(AlarmObject.DB_NAME, alarm.getName());
         values.put(AlarmObject.DB_TIME, alarm.getTime().getTime());
+        values.put(AlarmObject.DB_NOTI_STATE, alarm.getNotificationState());
         return values;
     }
 
