@@ -22,6 +22,7 @@ public class AlarmObjectCursor extends CursorWrapper {
         double lng =-71.806722;
         long date = System.currentTimeMillis();
         long bufTime=5*60000;
+        int notState = 0;
         try {
             name = getString(getColumnIndex(AlarmObject.DB_NAME));
             location = getString(getColumnIndex(AlarmObject.DB_LOCATION));
@@ -29,6 +30,7 @@ public class AlarmObjectCursor extends CursorWrapper {
             lng = getDouble(getColumnIndex(AlarmObject.DB_LNG));
             lat = getDouble(getColumnIndex(AlarmObject.DB_LAT));
             bufTime = getLong(getColumnIndex(AlarmObject.DB_EXTRA_TIME));
+            notState = getInt(getColumnIndex(AlarmObject.DB_NOTI_STATE));
         } catch (Exception e){}
 
         AlarmObject alrm = new AlarmObject(name);
@@ -37,6 +39,7 @@ public class AlarmObjectCursor extends CursorWrapper {
         alrm.setLongitude(lng);
         alrm.setLocation(location);
         alrm.setTime(new Date(date));
+        alrm.setNotificationState(notState);
         return alrm;
     }
 }
