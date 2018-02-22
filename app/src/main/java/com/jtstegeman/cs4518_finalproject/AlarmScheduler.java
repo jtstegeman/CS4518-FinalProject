@@ -96,7 +96,7 @@ public class AlarmScheduler extends BroadcastReceiver {
             }
             nextTime = System.currentTimeMillis() + 30000;
         }
-        else if (leaveTime<System.currentTimeMillis()+6000){
+        else if (leaveTime<System.currentTimeMillis()+60000){
             if (a.getNotificationState()<AlarmObject.WARNING_1_MIN) {
                 a.setNotificationState(AlarmObject.WARNING_1_MIN);
                 AlarmHelper.getInstance(ctx).update(a);
