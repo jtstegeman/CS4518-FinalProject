@@ -1,0 +1,73 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jtstegeman.cs4518_finalproject.NewAlarm">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/horizontalPadding"
+        android:paddingRight="@dimen/horizontalPadding"
+        android:paddingTop="@dimen/verticalPadding">
+
+        <EditText
+            android:id="@+id/newName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/event_name" />
+
+        <EditText
+            android:id="@+id/newLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/location_nick_name" />
+
+        <Button
+            android:id="@+id/newGPSLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="selectNewLocation"
+            android:text="@string/select_location" />
+
+        <Button
+            android:id="@+id/newTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="selectNewDate"
+            android:text="@string/select_date_and_time" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/newCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="cancelNewAlarm"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/newConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="confirmNewAlarm"
+                android:text="@string/confirm" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

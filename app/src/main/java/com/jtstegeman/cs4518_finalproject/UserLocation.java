@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -35,15 +36,14 @@ public class UserLocation {
         return local;
     }
 
-    private UserLocation(Context ctx) {
+    private UserLocation(final Context ctx) {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(ctx);
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
-                locationResult.getLastLocation();
+                Log.i("L",locationResult.getLastLocation().toString());
+                setLocation(locationResult.getLastLocation(),ctx);
             }
-
-            ;
         };
         setup(ctx);
     }

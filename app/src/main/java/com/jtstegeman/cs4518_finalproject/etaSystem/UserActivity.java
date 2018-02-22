@@ -8,7 +8,7 @@ public enum UserActivity {
 
     WALKING(1.4F),
     RUNNING(3.0F),
-    STATIONARY(0.0F),
+    STATIONARY(1.1F),
     BIKING(10.0F),
     DRIVING(20.0F);
 
