@@ -52,6 +52,7 @@ public class AlarmScheduler extends BroadcastReceiver {
     }
 
     public boolean schedule(Context ctx){
+        UserLocation.getInstance(ctx).refresh(ctx);
         if (alarmManager==null)
             alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager==null || a==null){
@@ -131,12 +132,12 @@ public class AlarmScheduler extends BroadcastReceiver {
             if (leaveTime-System.currentTimeMillis()<600000){ // if less than 10 minutes away
                 nextTime = System.currentTimeMillis() + 60000;
             }else { // next alarm is halfway between now and when they need to leave
-                nextTime = leaveTime/2 + System.currentTimeMillis()/2;
+                nextTime = leaveTime-60000*20;
             }
         }
         calendar.setTime(new Date(nextTime));
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        Log.i("ALR","Scheduled");
+        alarmManager.set(AlarmManager.RTC_WAKEUP, nextTime, pendingIntent);
+        Log.i("ALR","Scheduled: "+d.format(new Date(nextTime)));
         return true;
     }
 

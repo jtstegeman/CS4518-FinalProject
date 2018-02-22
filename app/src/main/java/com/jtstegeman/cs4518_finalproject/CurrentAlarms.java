@@ -18,6 +18,7 @@ public class CurrentAlarms extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        UserLocation.getInstance(this).refresh(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_alarms);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -30,7 +31,7 @@ public class CurrentAlarms extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 AlarmObject a= new AlarmObject("Test 1");
-                a.setTime(new Date(System.currentTimeMillis()+15000));
+                a.setTime(new Date(System.currentTimeMillis()+60000*9));
                 a.setLocation("somewhere over the rainbow");
                 AlarmScheduler scheduler = new AlarmScheduler(a);
                 scheduler.schedule(ctx);

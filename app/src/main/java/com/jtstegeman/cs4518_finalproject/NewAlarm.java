@@ -4,52 +4,37 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.TextView;
-
-import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
-import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
+import android.widget.EditText;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AddAlarm.OnFragmentInteractionListener} interface
+ * {@link NewAlarm.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AddAlarm#newInstance} factory method to
+ * Use the {@link NewAlarm#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddAlarm extends Fragment {
+public class NewAlarm extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "name";
-
-    private static final String DIALOG_DATE = "DialogDate";
-
-
-    private static final int REQUEST_DATE = 0;
-    private static final int REQUEST_MAP  = 1;
 
 
     // TODO: Rename and change types of parameters
+    private EditText mNewLocation;
+    private EditText mNewName;
+    private Button mNewGPSLocation;
+    private Button mNewTime;
+    private Button mNewConfirm;
+    private Button mNewCancel;
 
     private OnFragmentInteractionListener mListener;
 
-
-    private AlarmObject alarm;
-
-    private Button mEdit;
-    private TextView mTime;
-    private TextView mLocation;
-
-    private String mName;
-
-    public AddAlarm() {
+    public NewAlarm() {
         // Required empty public constructor
     }
 
@@ -57,14 +42,12 @@ public class AddAlarm extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param mName Parameter 1.
-     * @return A new instance of fragment AddAlarm.
+     * @return A new instance of fragment NewAlarm.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddAlarm newInstance(String mName) {
-        AddAlarm fragment = new AddAlarm();
+    public static NewAlarm newInstance() {
+        NewAlarm fragment = new NewAlarm();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, mName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,26 +55,23 @@ public class AddAlarm extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mName = getArguments().getString(ARG_PARAM1);
-
-        AlarmHelper helper = AlarmHelper.getInstance(this.getContext());
-        alarm = helper.get(mName);
-//        alarm.setTime(AlarmHelper.get(getActivity()).getTime());
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_add_alarm, container, false);
+        View v = inflater.inflate(R.layout.fragment_new_alarm, container, false);
 
-        mEdit = (Button) v.findViewById(R.id.editButton);
-        mTime = (TextView) v.findViewById(R.id.dataTime);
-        mLocation = (TextView) v.findViewById(R.id.dataLocation);
+        mNewName = (EditText) v.findViewById(R.id.newName);
+        mNewLocation = (EditText) v.findViewById(R.id.newLocation);
+        mNewGPSLocation = (Button) v.findViewById(R.id.newGPSLocation);
+        mNewTime = (Button) v.findViewById(R.id.newTime);
+        mNewConfirm = (Button) v.findViewById(R.id.newConfirm);
+        mNewCancel = (Button) v.findViewById(R.id.newCancel);
 
-        mTime.setText(alarm.getName());
-        mLocation.setText(alarm.getLocation());
+
+
 
         return v;
     }
@@ -120,6 +100,23 @@ public class AddAlarm extends Fragment {
         mListener = null;
     }
 
+    public void confirmNewAlarm(View view) {
+
+    }
+
+    public void cancelNewAlarm(View view) {
+
+    }
+
+    public void selectNewLocation(View v){
+
+    }
+
+    public void selectNewDate(View v){
+
+    }
+
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -135,18 +132,5 @@ public class AddAlarm extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void editAlarm(View v){
 
-        FragmentManager manager = getFragmentManager();
-
-
-    }
-
-    public void editTime(View v){
-        FragmentManager manager = getFragmentManager();
-        DatePickerFragment dialog = DatePickerFragment
-                .newInstance(alarm.getTime());
-        dialog.setTargetFragment(AddAlarm.this, REQUEST_DATE);
-        dialog.show(manager, DIALOG_DATE);
-    }
 }
