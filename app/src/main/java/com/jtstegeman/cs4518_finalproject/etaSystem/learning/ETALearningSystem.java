@@ -1,9 +1,8 @@
 package com.jtstegeman.cs4518_finalproject.etaSystem.learning;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.jtstegeman.cs4518_finalproject.etaSystem.ETASpeedPrefs;
+import com.jtstegeman.cs4518_finalproject.etaSystem.ETAPrefs;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 
 import java.util.HashMap;
@@ -24,10 +23,10 @@ public class ETALearningSystem {
     public ETALearningSystem(ETALearner etaLearner, SharedPreferences preferences) {
         mETALearner = etaLearner;
         speeds = new HashMap<>();
-        speeds.put(UserActivity.WALKING, preferences.getFloat(ETASpeedPrefs.WALKING_SPEED_PREF, UserActivity.WALKING.getDefaultSpeed()));
-        speeds.put(UserActivity.RUNNING, preferences.getFloat(ETASpeedPrefs.RUNNING_SPEED_PREF, UserActivity.RUNNING.getDefaultSpeed()));
-        speeds.put(UserActivity.DRIVING, preferences.getFloat(ETASpeedPrefs.DRIVING_SPEED_PREF, UserActivity.DRIVING.getDefaultSpeed()));
-        speeds.put(UserActivity.BIKING, preferences.getFloat(ETASpeedPrefs.BIKING_SPEED_PREF, UserActivity.BIKING.getDefaultSpeed()));
+        speeds.put(UserActivity.WALKING, preferences.getFloat(ETAPrefs.WALKING_SPEED_PREF, UserActivity.WALKING.getDefaultSpeed()));
+        speeds.put(UserActivity.RUNNING, preferences.getFloat(ETAPrefs.RUNNING_SPEED_PREF, UserActivity.RUNNING.getDefaultSpeed()));
+        speeds.put(UserActivity.DRIVING, preferences.getFloat(ETAPrefs.DRIVING_SPEED_PREF, UserActivity.DRIVING.getDefaultSpeed()));
+        speeds.put(UserActivity.BIKING, preferences.getFloat(ETAPrefs.BIKING_SPEED_PREF, UserActivity.BIKING.getDefaultSpeed()));
         prefs = preferences;
     }
 
@@ -58,13 +57,13 @@ public class ETALearningSystem {
     private String getPrefNameOfActivity(UserActivity activity){
         switch (activity){
             case WALKING:
-                return ETASpeedPrefs.WALKING_SPEED_PREF;
+                return ETAPrefs.WALKING_SPEED_PREF;
             case RUNNING:
-                return ETASpeedPrefs.RUNNING_SPEED_PREF;
+                return ETAPrefs.RUNNING_SPEED_PREF;
             case BIKING:
-                return ETASpeedPrefs.BIKING_SPEED_PREF;
+                return ETAPrefs.BIKING_SPEED_PREF;
             case DRIVING:
-                return ETASpeedPrefs.DRIVING_SPEED_PREF;
+                return ETAPrefs.DRIVING_SPEED_PREF;
         }
         return "";
     }
