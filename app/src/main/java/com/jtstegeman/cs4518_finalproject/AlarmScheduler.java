@@ -1,13 +1,16 @@
 package com.jtstegeman.cs4518_finalproject;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,7 +19,10 @@ import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETAFactory;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETASystem;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
+import com.jtstegeman.cs4518_finalproject.sms.TextMessageHandler;
 
+import java.security.Permission;
+import java.security.Permissions;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -94,6 +100,9 @@ public class AlarmScheduler extends BroadcastReceiver {
                 a.setNotificationState(AlarmObject.WARNING_LATE);
                 AlarmHelper.getInstance(ctx).update(a);
                 EtaNotify.getInstance(ctx).publishNotification(ctx,"You are late!!!", "You have to hurry up to make the meeting: "+a.getName()+"\nExpected Arival: "+arivalTime);
+                if(ContextCompat.checkSelfPermission(ctx, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                    TextMessageHandler.sendSMS(a.getPhoneNumbers(), "I'm going to be late to the meeting, I will probably arrive at " + arivalTime);
+                }
             }
             nextTime = System.currentTimeMillis() + 30000;
         }

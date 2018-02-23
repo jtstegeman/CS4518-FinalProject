@@ -117,6 +117,7 @@ public class AlarmHelper {
         values.put(AlarmObject.DB_NAME, alarm.getName());
         values.put(AlarmObject.DB_TIME, alarm.getTime().getTime());
         values.put(AlarmObject.DB_NOTI_STATE, alarm.getNotificationState());
+        values.put(AlarmObject.DB_SMS, AlarmObject.compressStrings(alarm.getPhoneNumbers()));
         return values;
     }
 

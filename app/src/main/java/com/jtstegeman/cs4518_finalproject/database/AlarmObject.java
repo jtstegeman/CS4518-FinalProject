@@ -1,6 +1,10 @@
 package com.jtstegeman.cs4518_finalproject.database;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jtste on 2/15/2018.
@@ -15,11 +19,13 @@ public class AlarmObject {
     public static final String DB_TIME = "time";
     public static final String DB_EXTRA_TIME = "buftime";
     public static final String DB_NOTI_STATE = "nots";
+    public static final String DB_SMS = "sms";
 
     public static final int NO_NOTIFICATIONS = 0;
     public static final int WARNING_5_MIN = 1;
     public static final int WARNING_1_MIN = 3;
     public static final int WARNING_LATE = 7;
+
 
     private String name = "Default Name";
     private double latitude = 42.274456;
@@ -28,6 +34,7 @@ public class AlarmObject {
     private Date time = new Date(System.currentTimeMillis()+60000*60*24);
     private long bufferTime = 5*60000;
     private int notificationState=0;
+    private Collection<String> phoneNumbers = new LinkedList<>();
 
     public AlarmObject(String name) {
         this.name = name;
@@ -106,5 +113,38 @@ public class AlarmObject {
         }
         this.bufferTime = this.time.getTime()-arrival.getTime();
         return true;
+    }
+
+    public Collection<String> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(Collection<String> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
+
+    public static String compressStrings(Collection<String> strs){
+        boolean f = false;
+        StringBuilder b = new StringBuilder();
+        for (String s : strs){
+            if (s!=null) {
+                if (f) {
+                    b.append("::,::");
+                }
+                b.append(s);
+                f = true;
+            }
+        }
+        return b.toString();
+    }
+
+    public static Collection<String> decompressStrings(String str){
+        if (str==null)
+            return new LinkedList<>();
+        String[] split = str.split("::,::");
+        if (split!=null){
+            return new LinkedList<>(Arrays.asList(split));
+        }
+        return new LinkedList<>();
     }
 }

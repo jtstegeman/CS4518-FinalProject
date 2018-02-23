@@ -1,11 +1,18 @@
 package com.jtstegeman.cs4518_finalproject;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +22,13 @@ import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
 import java.util.Date;
 
 public class CurrentAlarms extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(Settings.isFirst(this)){
+            Intent i = new Intent(this, TutorialActivity.class);
+            startActivity(i);
+            finish();
+        }
         UserLocation.getInstance(this).refresh(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_alarms);
@@ -37,6 +48,7 @@ public class CurrentAlarms extends AppCompatActivity {
                 scheduler.schedule(ctx);
             }
         });
+        requestSMS();
     }
 
     @Override
@@ -59,5 +71,16 @@ public class CurrentAlarms extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requestSMS() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.SEND_SMS},
+                    100);
+        }
     }
 }

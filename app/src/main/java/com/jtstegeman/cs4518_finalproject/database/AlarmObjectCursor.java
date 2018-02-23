@@ -18,6 +18,7 @@ public class AlarmObjectCursor extends CursorWrapper {
     public AlarmObject getAlarmObject() {
         String name = "Default Alarm";
         String location = "";
+        String smsNumbers="";
         double lat = 42.274456;
         double lng =-71.806722;
         long date = System.currentTimeMillis();
@@ -31,6 +32,7 @@ public class AlarmObjectCursor extends CursorWrapper {
             lat = getDouble(getColumnIndex(AlarmObject.DB_LAT));
             bufTime = getLong(getColumnIndex(AlarmObject.DB_EXTRA_TIME));
             notState = getInt(getColumnIndex(AlarmObject.DB_NOTI_STATE));
+            smsNumbers = getString(getColumnIndex(AlarmObject.DB_SMS));
         } catch (Exception e){}
 
         AlarmObject alrm = new AlarmObject(name);
@@ -40,6 +42,7 @@ public class AlarmObjectCursor extends CursorWrapper {
         alrm.setLocation(location);
         alrm.setTime(new Date(date));
         alrm.setNotificationState(notState);
+        alrm.setPhoneNumbers(AlarmObject.decompressStrings(smsNumbers));
         return alrm;
     }
 }
