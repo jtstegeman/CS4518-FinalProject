@@ -23,7 +23,7 @@ public class ETASystem {
     public ETASystem(ETAEstimator ETAEstimator, SharedPreferences prefs) {
         mETAEstimator = ETAEstimator;
         this.prefs = prefs;
-        this.mETALearner = new ETALearningSystem(new ExponentialMovingAverageLearner(0.5F), prefs);
+        this.mETALearner = new ETALearningSystem(new ExponentialMovingAverageLearner(0.6F), prefs);
     }
 
     /**

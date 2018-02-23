@@ -21,5 +21,6 @@
     <string name="sms_tutorial_content">Automatically notify your teammates that you will be late, and when you\'ll get there.</string>
     <string name="sms_tutorial_title">SMS Capability</string>
     <string name="pref_first_time_key">pref_first_time</string>
+    <string name="pref_disregard_long_distances_key">pref_disregard_long_distances</string>
 
 </resources>
