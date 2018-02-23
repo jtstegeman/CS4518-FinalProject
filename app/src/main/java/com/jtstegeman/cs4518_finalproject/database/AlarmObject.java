@@ -1,6 +1,9 @@
 package com.jtstegeman.cs4518_finalproject.database;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jtste on 2/15/2018.
@@ -28,6 +31,7 @@ public class AlarmObject {
     private Date time = new Date(System.currentTimeMillis()+60000*60*24);
     private long bufferTime = 5*60000;
     private int notificationState=0;
+    private Collection<String> phoneNumbers = new LinkedList<>();
 
     public AlarmObject(String name) {
         this.name = name;
@@ -106,5 +110,13 @@ public class AlarmObject {
         }
         this.bufferTime = this.time.getTime()-arrival.getTime();
         return true;
+    }
+
+    public Collection<String> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(Collection<String> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
     }
 }

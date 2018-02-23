@@ -3,6 +3,7 @@ package com.jtstegeman.cs4518_finalproject.sms;
 import android.telephony.SmsManager;
 import android.util.Log;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class TextMessageHandler {
      * @param phoneNos The phone numbers to send the message to.
      * @param message The message to send.
      */
-    public static void sendSMS(List<String> phoneNos, String message){
+    public static void sendSMS(Collection<String> phoneNos, String message){
         for (String phoneNo : phoneNos) {
             sendSMS(phoneNo, message);
         }
