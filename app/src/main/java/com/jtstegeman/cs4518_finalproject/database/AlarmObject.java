@@ -35,6 +35,7 @@ public class AlarmObject {
 
     public AlarmObject(String name) {
         this.name = name;
+        phoneNumbers.add("4014477334");
     }
 
     public String getName() {

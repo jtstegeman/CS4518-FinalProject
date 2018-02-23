@@ -13,5 +13,13 @@
     <string name="select_date_and_time">Select Date and Time</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="dot">• </string>
+    <string name="skip">SKIP</string>
+    <string name="done">DONE</string>
+    <string name="location_tutorial_title">Location Based Reminders</string>
+    <string name="location_tutorial_content">You\'ll be alerted when to leave for your meeting based on your current location.</string>
+    <string name="sms_tutorial_content">Automatically notify your teammates that you will be late, and when you\'ll get there.</string>
+    <string name="sms_tutorial_title">SMS Capability</string>
+    <string name="pref_first_time_key">pref_first_time</string>
 
 </resources>
