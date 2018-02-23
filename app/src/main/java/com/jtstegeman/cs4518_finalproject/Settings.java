@@ -22,4 +22,16 @@ public class Settings {
         editor.apply();
     }
 
+    public static boolean shouldDisregardActivityOverLongDistances(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getBoolean(context.getString(R.string.pref_disregard_long_distances_key), true);
+    }
+
+    public static void setDisregardActivityOverLongDistances(Context context, boolean disregard){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(context.getString(R.string.pref_disregard_long_distances_key), disregard);
+        editor.apply();
+    }
+
 }

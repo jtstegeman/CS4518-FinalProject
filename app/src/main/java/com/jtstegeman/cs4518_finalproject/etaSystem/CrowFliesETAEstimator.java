@@ -3,6 +3,8 @@ package com.jtstegeman.cs4518_finalproject.etaSystem;
 import android.content.SharedPreferences;
 import android.location.Location;
 
+import com.jtstegeman.cs4518_finalproject.Settings;
+
 /**
  * Created by kyle on 2/15/18.
  */
@@ -13,7 +15,7 @@ public class CrowFliesETAEstimator implements ETAEstimator {
         double distance = current.distanceTo(target) * Math.PI / 2.0; // Used to estimate non-linear distance within 2 standard deviations
 
 
-        if (distance >= 150 && preferences.getBoolean(ETAPrefs.IGNORE_ACTIVITY_LONG_DISTANCE, false)) {
+        if (distance >= 150 && preferences.getBoolean(ETAPrefs.IGNORE_ACTIVITY_LONG_DISTANCE, true)) {
             if (distance < 300){
                 activity = UserActivity.RUNNING;
             } else if (distance < 2000){ // There is probably a better algorithm
