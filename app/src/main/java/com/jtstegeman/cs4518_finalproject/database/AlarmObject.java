@@ -1,5 +1,6 @@
 package com.jtstegeman.cs4518_finalproject.database;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -18,11 +19,13 @@ public class AlarmObject {
     public static final String DB_TIME = "time";
     public static final String DB_EXTRA_TIME = "buftime";
     public static final String DB_NOTI_STATE = "nots";
+    public static final String DB_SMS = "sms";
 
     public static final int NO_NOTIFICATIONS = 0;
     public static final int WARNING_5_MIN = 1;
     public static final int WARNING_1_MIN = 3;
     public static final int WARNING_LATE = 7;
+
 
     private String name = "Default Name";
     private double latitude = 42.274456;
@@ -119,5 +122,30 @@ public class AlarmObject {
 
     public void setPhoneNumbers(Collection<String> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
+    }
+
+    public static String compressStrings(Collection<String> strs){
+        boolean f = false;
+        StringBuilder b = new StringBuilder();
+        for (String s : strs){
+            if (s!=null) {
+                if (f) {
+                    b.append("::,::");
+                }
+                b.append(s);
+                f = true;
+            }
+        }
+        return b.toString();
+    }
+
+    public static Collection<String> decompressStrings(String str){
+        if (str==null)
+            return new LinkedList<>();
+        String[] split = str.split("::,::");
+        if (split!=null){
+            return new LinkedList<>(Arrays.asList(split));
+        }
+        return new LinkedList<>();
     }
 }
