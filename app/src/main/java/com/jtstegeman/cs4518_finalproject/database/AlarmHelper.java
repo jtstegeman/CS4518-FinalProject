@@ -60,7 +60,7 @@ public class AlarmHelper {
     }
 
     public AlarmObject get(String name){
-        AlarmObjectCursor cursor = queryCrimes(
+        AlarmObjectCursor cursor = queryAlarms(
                 AlarmObject.DB_NAME + " = ?",
                 new String[] { name }
         );
@@ -78,7 +78,7 @@ public class AlarmHelper {
     }
 
     public List<AlarmObject> getAlarms(){
-        AlarmObjectCursor cursor = queryCrimes(null,null);
+        AlarmObjectCursor cursor = queryAlarms(null,null);
         List<AlarmObject> lst = new ArrayList<>();
         try {
             if (cursor.getCount() == 0) {
@@ -121,7 +121,7 @@ public class AlarmHelper {
         return values;
     }
 
-    private AlarmObjectCursor queryCrimes(String whereClause, String[] whereArgs) {
+    private AlarmObjectCursor queryAlarms(String whereClause, String[] whereArgs) {
         Cursor cursor = db.query(
                 AlarmObject.DB_ALARM_TABLE,
                 null, // Columns - null selects all columns
