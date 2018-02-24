@@ -10,8 +10,4 @@
         android:title="@string/pref_sms_blast"
         android:summary="@string/pref_sms_blast_summ"
         android:defaultValue="false" />
-    <CheckBoxPreference
-        android:key="@string/pref_first_time_key"
-        android:defaultValue="true"
-        android:visibility="gone" />
 </PreferenceScreen>
