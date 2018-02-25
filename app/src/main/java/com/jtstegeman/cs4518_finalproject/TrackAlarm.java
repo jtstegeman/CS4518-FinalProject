@@ -90,7 +90,27 @@ public class TrackAlarm extends AppCompatActivity {
         mGoogleMapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String UriString = "google.navigation:q=" + String.valueOf(mlatitude) + "," + String.valueOf(mlongitude);
+
+                String UriString = "google.navigation:q=" + String.valueOf(mlatitude) + "," + String.valueOf(mlongitude) +"&mode=w";
+
+                switch(currentActivity){
+                    case BIKING:
+                        UriString = "google.navigation:q=" + String.valueOf(mlatitude) + "," + String.valueOf(mlongitude) +"&mode=b";
+                        break;
+                    case DRIVING:
+                        UriString = "google.navigation:q=" + String.valueOf(mlatitude) + "," + String.valueOf(mlongitude);
+                        break;
+                    case RUNNING:
+                        UriString = "google.navigation:q=" + String.valueOf(mlatitude) + "," + String.valueOf(mlongitude) +"&mode=w";
+                        break;
+                    case WALKING:
+                        UriString = "google.navigation:q=" + String.valueOf(mlatitude) + "," + String.valueOf(mlongitude) +"&mode=w";
+                        break;
+                    case STATIONARY:
+                        UriString = "google.navigation:q=" + String.valueOf(mlatitude) + "," + String.valueOf(mlongitude) +"&mode=w";
+                        break;
+                }
+
                 Uri mUri = Uri.parse(UriString);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, mUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
