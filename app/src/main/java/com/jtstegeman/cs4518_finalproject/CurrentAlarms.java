@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,10 +22,12 @@ import android.widget.TextView;
 
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
+import com.jtstegeman.cs4518_finalproject.etaSystem.ETAFactory;
 import com.jtstegeman.cs4518_finalproject.weather.WeatherManager;
 import com.jtstegeman.cs4518_finalproject.etaSystem.CrowFliesETAEstimator;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETASystem;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
+import com.jtstegeman.cs4518_finalproject.weather.WeatherType;
 
 import java.util.List;
 
@@ -169,9 +172,8 @@ public class CurrentAlarms extends AppCompatActivity {
             mLocation.setText(mAlarm.getLocation());
 
             Location mLocation = UserLocation.getLocation(CurrentAlarms.this);
-            CrowFliesETAEstimator mCrowEstimator = new CrowFliesETAEstimator();
-            SharedPreferences settings = CurrentAlarms.this.getSharedPreferences("App", Context.MODE_PRIVATE);
-            ETASystem mEstimator = new ETASystem(mCrowEstimator, settings);
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(CurrentAlarms.this);
+            ETASystem mEstimator = ETAFactory.getDefaultETASystem(settings);
             Location destLocation = new Location("");
             final double mlatitude = alarm.getLatitude();
             final double mlongitude = alarm.getLongitude();
@@ -179,7 +181,11 @@ public class CurrentAlarms extends AppCompatActivity {
             destLocation.setLongitude(mlongitude);
             currentActivity = DetectedActivitiesIntentService.getCurrentActivity(CurrentAlarms.this);
             int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
-
+            WeatherType weather = WeatherManager.getInstance(CurrentAlarms.this).getWeather(CurrentAlarms.this);
+            if(settings.getBoolean(getString(R.string.pref_use_weather_key), true)){
+                double newETA = ETA * weather.getTimeMultiplier();
+                ETA = (int) Math.round(newETA);
+            }
 
             int hours = ETA/3600;
             int minutes = (ETA - hours*3600)/60;
