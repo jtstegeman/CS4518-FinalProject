@@ -6,8 +6,8 @@ package com.jtstegeman.cs4518_finalproject.weather;
 
 public enum WeatherType {
     CLEAR(0, 1),
-    RAIN(1, 1.2),
-    SNOW(2, 1.3);
+    RAIN(1, 1.06), // 6% increase
+    SNOW(2, 1.11); // 11% increase
 
     private int id;
     private double timeMultiplier;
