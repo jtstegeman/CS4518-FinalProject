@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MakeAlarm extends AppCompatActivity {
-
-    Button selectLocation, selectTime, cancel, confirm;
     EditText eventName, locationName;
 
     @Override
@@ -23,11 +21,6 @@ public class MakeAlarm extends AppCompatActivity {
 
         eventName = findViewById(R.id.newName);
         locationName = findViewById(R.id.newLocation);
-
-        selectLocation = findViewById(R.id.newGPSLocation);
-        selectTime = findViewById(R.id.newTime);
-        cancel = findViewById(R.id.newCancel);
-        confirm = findViewById(R.id.newConfirm);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
