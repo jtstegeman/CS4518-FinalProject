@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/holo_blue_light"
             android:textColor="@android:color/holo_red_dark"
-            android:paddingr="@dimen/horizontalPadding"
+            android:padding="@dimen/horizontalPadding"
             android:text="@string/navigate_google_maps" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
