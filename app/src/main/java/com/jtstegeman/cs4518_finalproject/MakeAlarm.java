@@ -1,11 +1,15 @@
 package com.jtstegeman.cs4518_finalproject;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -80,6 +84,10 @@ public class MakeAlarm extends AppCompatActivity {
         eventName = findViewById(R.id.newName);
         locationName = findViewById(R.id.newLocation);
         phoneNumbersEditText = findViewById(R.id.phoneNumbers);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.pref_sms_blast_key), false)) {
+            phoneNumbersEditText.setEnabled(false);
+        }
 
         Intent seed = getIntent();
         if ((mode = seed.getIntExtra(EXTRA_MODE, MODE_MAKE)) == MODE_EDIT) {
