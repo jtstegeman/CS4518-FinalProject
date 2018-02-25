@@ -58,7 +58,6 @@ public class TrackAlarm extends AppCompatActivity {
         AlarmObject alarm = AlarmHelper.getInstance(this).get(seed.getStringExtra(EXTRA_ALARM_NAME));
 
         Location mLocation = UserLocation.getLocation(this);
-        CrowFliesETAEstimator mCrowEstimator = new CrowFliesETAEstimator();
         SharedPreferences settings = this.getSharedPreferences("App", Context.MODE_PRIVATE);
         ETASystem mEstimator = ETAFactory.getDefaultETASystem(settings);
         Location destLocation = new Location("");
