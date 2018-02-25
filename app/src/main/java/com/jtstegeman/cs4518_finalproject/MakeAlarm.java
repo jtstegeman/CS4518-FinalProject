@@ -25,7 +25,12 @@ import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
 
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class MakeAlarm extends AppCompatActivity {
     public static final String EXTRA_MODE = "mode";
@@ -38,7 +43,7 @@ public class MakeAlarm extends AppCompatActivity {
     private Calendar calendar;
 
     private Button newDate, newTime;
-    private EditText eventName, locationName;
+    private EditText eventName, locationName, phoneNumbersEditText;
 
     private double lat, lon;
 
@@ -68,6 +73,7 @@ public class MakeAlarm extends AppCompatActivity {
         newTime = findViewById(R.id.newTime);
         eventName = findViewById(R.id.newName);
         locationName = findViewById(R.id.newLocation);
+        phoneNumbersEditText = findViewById(R.id.phoneNumbers);
 
         Intent seed = getIntent();
         if ((mode = seed.getIntExtra(EXTRA_MODE, MODE_MAKE)) == MODE_EDIT) {
@@ -76,6 +82,7 @@ public class MakeAlarm extends AppCompatActivity {
             eventName.setEnabled(false);
             locationName.setText(alarm.getLocation());
             calendar.setTime(alarm.getTime());
+            phoneNumbersEditText.setText(formatPhoneNumbers(alarm.getPhoneNumbers()));
             getSupportActionBar().setTitle(R.string.title_activity_make_alarm_alternative);
             updateNewDate();
             updateNewTime();
@@ -164,10 +171,12 @@ public class MakeAlarm extends AppCompatActivity {
         alarm.setTime(calendar.getTime());
         alarm.setLatitude(lat);
         alarm.setLongitude(lon);
+        alarm.setPhoneNumbers(getPhoneNumbers());
         if (mode == MODE_MAKE) {
             AlarmHelper.getInstance(this).create(alarm);
         } else if (mode == MODE_EDIT) {
             AlarmHelper.getInstance(this).update(alarm);
+            AlarmScheduler.cancel(alarm, this);
         }
         AlarmScheduler.schedule(alarm, this);
         finish();
@@ -187,6 +196,53 @@ public class MakeAlarm extends AppCompatActivity {
     private void updateNewTime() {
         newTime.setText(String.format(getString(R.string.select_time_fs),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)));
+    }
+
+    private Collection<String> getPhoneNumbers(){
+        String text = phoneNumbersEditText.getText().toString();
+        List<String> phoneNumbers = new LinkedList<>();
+        String[] nums = text.split(", ");
+        for (String num: nums){
+            if(isPhoneNumber(num)) {
+                phoneNumbers.add(formatPhoneNumber(num));
+            }
+        }
+        return phoneNumbers;
+    }
+
+    private String formatPhoneNumber(String phoneNumber){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < phoneNumber.length(); i++) {
+            if (phoneNumber.charAt(i) >= '0' && phoneNumber.charAt(i) <= '9'){
+                stringBuilder.append(phoneNumber.charAt(i));
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private boolean isPhoneNumber(String phoneNumber){
+        int digitCount = 0;
+        for (int i = 0; i < phoneNumber.length(); i++) {
+            if (phoneNumber.charAt(i) >= '0' && phoneNumber.charAt(i) <= '9'){
+                digitCount++;
+            }
+        }
+
+        return (digitCount == 10 || digitCount == 11 || digitCount == 7);
+
+    }
+
+    private String formatPhoneNumbers(Collection<String> phoneNumbers){
+        StringBuilder stringBuilder = new StringBuilder();
+        Iterator<String> iterator = phoneNumbers.iterator();
+        while(iterator.hasNext()){
+            String phoneNum = iterator.next();
+            stringBuilder.append(phoneNum);
+            if(iterator.hasNext()){
+                stringBuilder.append(", ");
+            }
+        }
+        return stringBuilder.toString();
     }
 
 }
