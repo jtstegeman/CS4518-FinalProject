@@ -159,6 +159,7 @@ public class MakeAlarm extends AppCompatActivity {
 
     private void deleteAlarm() {
         AlarmHelper.getInstance(this).delete(new AlarmObject(eventName.getText().toString()));
+        finish();
     }
 
     private void updateNewDate() {
