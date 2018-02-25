@@ -62,7 +62,8 @@ public class MakeAlarm extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         calendar = Calendar.getInstance();
-
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 
         newDate = findViewById(R.id.newDate);
         newTime = findViewById(R.id.newTime);
