@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -49,7 +51,7 @@ public class MakeAlarm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_alarm);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         calendar = Calendar.getInstance();
@@ -66,9 +68,22 @@ public class MakeAlarm extends AppCompatActivity {
             eventName.setEnabled(false);
             locationName.setText(alarm.getLocation());
             calendar.setTime(alarm.getTime());
+            toolbar.setTitle(R.string.title_activity_make_alarm_alternative);
+            findViewById(R.id.action_delete).setVisibility(View.VISIBLE);
             updateNewDate();
             updateNewTime();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_make_alarm, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     public void selectNewLocation(View v) {
