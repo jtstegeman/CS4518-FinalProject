@@ -169,7 +169,7 @@ public class CurrentAlarms extends AppCompatActivity {
         public void bindAlarm(AlarmObject alarm){
             mAlarm = alarm;
 
-            mTime.setText(mAlarm.getTime().toString());
+            mTime.setText(String.format("%02d:%02d", mAlarm.getTime().getHours(), mAlarm.getTime().getMinutes());
             mLocation.setText(mAlarm.getLocation());
 
             Location mLocation = UserLocation.getLocation(CurrentAlarms.this);
