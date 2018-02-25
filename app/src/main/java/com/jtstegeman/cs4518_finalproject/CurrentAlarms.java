@@ -139,6 +139,13 @@ public class CurrentAlarms extends AppCompatActivity {
 
             super(itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    startActivity(MakeAlarm.getEditAlarmIntent(CurrentAlarms.this, mAlarm));
+                    return true;
+                }
+            });
 
             mTime = (TextView) itemView.findViewById(R.id.dataTime);
             mLocation = (TextView) itemView.findViewById(R.id.dataLocation);

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -17,6 +18,7 @@ import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MakeAlarm extends AppCompatActivity {
     public static final String EXTRA_MODE = "mode";
@@ -24,8 +26,10 @@ public class MakeAlarm extends AppCompatActivity {
     public static final int MODE_MAKE = 1;
     public static final int MODE_EDIT = 2;
 
+    private int mode;
     private Calendar calendar;
 
+    private Button newDate, newTime;
     private EditText eventName, locationName;
 
     public static Intent getMakeAlarmIntent(Context context) {
@@ -50,8 +54,21 @@ public class MakeAlarm extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
 
+        newDate = findViewById(R.id.newDate);
+        newTime = findViewById(R.id.newTime);
         eventName = findViewById(R.id.newName);
         locationName = findViewById(R.id.newLocation);
+
+        Intent seed = getIntent();
+        if ((mode = seed.getIntExtra(EXTRA_MODE, MODE_MAKE)) == MODE_EDIT) {
+            AlarmObject alarm = AlarmHelper.getInstance(this).get(seed.getStringExtra(EXTRA_ALARM_NAME));
+            eventName.setText(alarm.getName());
+            eventName.setEnabled(false);
+            locationName.setText(alarm.getLocation());
+            calendar.setTime(alarm.getTime());
+            updateNewDate();
+            updateNewTime();
+        }
     }
 
     public void selectNewLocation(View v) {
@@ -63,10 +80,10 @@ public class MakeAlarm extends AppCompatActivity {
         picker.setListener(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                Toast.makeText(MakeAlarm.this, String.format("%d/%d/%d", month, day, year), Toast.LENGTH_LONG).show();
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, day);
+                updateNewDate();
             }
         });
         picker.show(getFragmentManager(), "datePicker");
@@ -77,9 +94,9 @@ public class MakeAlarm extends AppCompatActivity {
         picker.setListener(new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                Toast.makeText(MakeAlarm.this, String.format("%d:%d", hourOfDay, minute), Toast.LENGTH_LONG).show();
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
+                updateNewTime();
             }
         });
         picker.show(getFragmentManager(), "timePicker");
@@ -92,8 +109,23 @@ public class MakeAlarm extends AppCompatActivity {
         AlarmObject alarm = new AlarmObject(eventName.getText().toString());
         alarm.setLocation(locationName.getText().toString());
         alarm.setTime(calendar.getTime());
-        AlarmHelper.getInstance(this).create(alarm);
+        if (mode == MODE_MAKE) {
+            AlarmHelper.getInstance(this).create(alarm);
+        } else if (mode == MODE_EDIT) {
+            AlarmHelper.getInstance(this).update(alarm);
+        }
         finish();
+    }
+
+    private void updateNewDate() {
+        newDate.setText(String.format(getString(R.string.select_date_fs),
+                calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US),
+                calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.YEAR)));
+    }
+
+    private void updateNewTime() {
+        newTime.setText(String.format(getString(R.string.select_time_fs),
+                calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)));
     }
 
 }
