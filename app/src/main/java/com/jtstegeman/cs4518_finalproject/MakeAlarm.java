@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,8 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
 
@@ -44,7 +47,9 @@ public class MakeAlarm extends AppCompatActivity {
     private Button newDate, newTime, newLocation;
     private EditText eventName, locationName, phoneNumbersEditText;
 
-    private double lat, lon;
+    Location current = UserLocation.getLocation(this);
+    private double lat = current.getLatitude();
+    private double lon = current.getLongitude();
 
     public static Intent getMakeAlarmIntent(Context context) {
         Intent intent = new Intent(context, MakeAlarm.class);
@@ -120,6 +125,11 @@ public class MakeAlarm extends AppCompatActivity {
     public void selectNewLocation(View v) {
 
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+        double defaultZoomConstant = 0.006/2;
+        builder.setLatLngBounds(new LatLngBounds(
+                new LatLng(lat-defaultZoomConstant,lon-defaultZoomConstant),
+                new LatLng(lat+defaultZoomConstant, lon+defaultZoomConstant)));
 
         try {
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
