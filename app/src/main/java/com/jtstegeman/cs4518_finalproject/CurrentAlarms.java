@@ -137,9 +137,7 @@ public class CurrentAlarms extends AppCompatActivity {
 
         private AlarmObject mAlarm;
 
-        private TextView mTime;
-        private TextView mLocation;
-        private TextView mETA;
+        private TextView mName, mTime, mLocation, mETA;
 
         public AlarmHolder(View itemView){
 
@@ -159,16 +157,16 @@ public class CurrentAlarms extends AppCompatActivity {
                 }
             });
 
-
-
-            mTime = (TextView) itemView.findViewById(R.id.dataTime);
-            mLocation = (TextView) itemView.findViewById(R.id.dataLocation);
-            mETA = (TextView) itemView.findViewById(R.id.dataETA);
+            mName = itemView.findViewById(R.id.eventName);
+            mTime = itemView.findViewById(R.id.dataTime);
+            mLocation = itemView.findViewById(R.id.dataLocation);
+            mETA = itemView.findViewById(R.id.dataETA);
         }
 
         public void bindAlarm(AlarmObject alarm){
             mAlarm = alarm;
 
+            mName.setText(mAlarm.getName());
             mTime.setText(String.format(getString(R.string.time_fs), mAlarm.getTime().getHours(), mAlarm.getTime().getMinutes()));
             mLocation.setText(mAlarm.getLocation());
 
