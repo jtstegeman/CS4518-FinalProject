@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/event_name" />
+            android:hint="@string/event_name" />
 
         <EditText
             android:id="@+id/newLocation"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/location_nick_name" />
+            android:hint="@string/location_nick_name" />
 
         <Button
             android:id="@+id/newGPSLocation"
@@ -39,12 +39,27 @@
             android:onClick="selectNewLocation"
             android:text="@string/select_location" />
 
-        <Button
-            android:id="@+id/newTime"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="selectNewDate"
-            android:text="@string/select_date_and_time" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/newDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="selectNewDate"
+                android:text="@string/select_date" />
+
+            <Button
+                android:id="@+id/newTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="selectNewTime"
+                android:text="@string/select_time" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

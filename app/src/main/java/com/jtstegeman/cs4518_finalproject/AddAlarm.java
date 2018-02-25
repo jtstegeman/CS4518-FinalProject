@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
@@ -144,7 +143,7 @@ public class AddAlarm extends Fragment {
 
     public void editTime(View v){
         FragmentManager manager = getFragmentManager();
-        DatePickerFragment dialog = DatePickerFragment
+        DatePickerFragmentNerdHerd dialog = DatePickerFragmentNerdHerd
                 .newInstance(alarm.getTime());
         dialog.setTargetFragment(AddAlarm.this, REQUEST_DATE);
         dialog.show(manager, DIALOG_DATE);
