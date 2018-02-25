@@ -81,7 +81,7 @@ public class MakeAlarm extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_make_alarm, menu);
-        if (mode == MODE_EDIT) findViewById(R.id.action_delete).setVisibility(View.VISIBLE);
+        if (mode == MODE_EDIT) menu.findItem(R.id.action_delete).setVisible(true);
         return true;
     }
 
