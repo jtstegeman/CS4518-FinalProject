@@ -42,4 +42,5 @@
     <string name="navigate_google_maps">open navigation in Google Maps</string>
     <string name="new_shortcut_short_label">New event</string>
     <string name="new_shortcut_long_label">Create new event</string>
+    <string name="eta">ETA</string>
 </resources>

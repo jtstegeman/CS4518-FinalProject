@@ -3,7 +3,9 @@ package com.jtstegeman.cs4518_finalproject;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +27,9 @@ import android.widget.TextView;
 
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
+import com.jtstegeman.cs4518_finalproject.etaSystem.CrowFliesETAEstimator;
+import com.jtstegeman.cs4518_finalproject.etaSystem.ETASystem;
+import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 
 import java.util.Date;
 import java.util.List;
@@ -36,6 +41,8 @@ public class CurrentAlarms extends AppCompatActivity {
 
     private AlarmAdapter mAdapter;
     private RecyclerView mAlarmRecyclerView;
+    private UserActivity currentActivity;
+
     private boolean mSubtitleVisible;
 
 
@@ -134,6 +141,7 @@ public class CurrentAlarms extends AppCompatActivity {
 
         private TextView mTime;
         private TextView mLocation;
+        private TextView mETA;
 
         public AlarmHolder(View itemView){
 
@@ -163,6 +171,20 @@ public class CurrentAlarms extends AppCompatActivity {
 
             mTime.setText(mAlarm.getTime().toString());
             mLocation.setText(mAlarm.getLocation());
+
+            Location mLocation = UserLocation.getLocation(getParent());
+            CrowFliesETAEstimator mCrowEstimator = new CrowFliesETAEstimator();
+            SharedPreferences settings = getParent().getSharedPreferences("App", Context.MODE_PRIVATE);
+            ETASystem mEstimator = new ETASystem(mCrowEstimator, settings);
+            Location destLocation = new Location("");
+            final double mlatitude = alarm.getLatitude();
+            final double mlongitude = alarm.getLongitude();
+            destLocation.setLatitude(mlatitude);
+            destLocation.setLongitude(mlongitude);
+            currentActivity = DetectedActivitiesIntentService.getCurrentActivity(getParent());
+            int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
+
+            mETA.setText(String.valueOf(ETA));
         }
 
         @Override
