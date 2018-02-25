@@ -9,30 +9,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/ETA_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="24dp"
             android:text="TextView" />
 
         <TextView
             android:id="@+id/Location_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="24dp"
             android:text="TextView" />
 
         <TextView
             android:id="@+id/Action_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="24dp"
             android:text="TextView" />
 
         <Button
             android:id="@+id/google_maps_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/holo_blue_light"
+            android:textColor="@android:color/holo_red_dark"
+            android:paddingr="@dimen/horizontalPadding"
             android:text="@string/navigate_google_maps" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

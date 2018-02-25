@@ -7,13 +7,14 @@
 
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="location">Location</string>
     <string name="time">Time</string>
+    <string name="time_fs">%02d:%02d</string>
     <string name="date_picker_title">\"Meeting Time\"</string>
     <string name="location_nick_name">Location (Nick Name)</string>
     <string name="event_name">Event Name</string>
     <string name="select_location">Select Location</string>
+    <string name="select_location_fs">Select Location - Currently %f, %f</string>
     <string name="select_date">Select Date</string>
     <string name="select_date_fs">Select Date - Currently %s %d, %d</string>
     <string name="select_time">Select Time</string>

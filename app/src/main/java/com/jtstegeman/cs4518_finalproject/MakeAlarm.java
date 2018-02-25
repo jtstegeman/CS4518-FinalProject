@@ -30,7 +30,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 public class MakeAlarm extends AppCompatActivity {
     public static final String EXTRA_MODE = "mode";
@@ -42,7 +41,7 @@ public class MakeAlarm extends AppCompatActivity {
     private int mode;
     private Calendar calendar;
 
-    private Button newDate, newTime;
+    private Button newDate, newTime, newLocation;
     private EditText eventName, locationName, phoneNumbersEditText;
 
     private double lat, lon;
@@ -67,10 +66,12 @@ public class MakeAlarm extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         calendar = Calendar.getInstance();
-
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 
         newDate = findViewById(R.id.newDate);
         newTime = findViewById(R.id.newTime);
+        newLocation = findViewById(R.id.newGPSLocation);
         eventName = findViewById(R.id.newName);
         locationName = findViewById(R.id.newLocation);
         phoneNumbersEditText = findViewById(R.id.phoneNumbers);
@@ -83,9 +84,12 @@ public class MakeAlarm extends AppCompatActivity {
             locationName.setText(alarm.getLocation());
             calendar.setTime(alarm.getTime());
             phoneNumbersEditText.setText(formatPhoneNumbers(alarm.getPhoneNumbers()));
+            lat = alarm.getLatitude();
+            lon = alarm.getLongitude();
             getSupportActionBar().setTitle(R.string.title_activity_make_alarm_alternative);
             updateNewDate();
             updateNewTime();
+            updateNewLocation();
         }
     }
 
@@ -134,6 +138,7 @@ public class MakeAlarm extends AppCompatActivity {
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
                 lat = place.getLatLng().latitude;
                 lon = place.getLatLng().longitude;
+                updateNewLocation();
             }
         }
     }
@@ -232,17 +237,21 @@ public class MakeAlarm extends AppCompatActivity {
 
     }
 
-    private String formatPhoneNumbers(Collection<String> phoneNumbers){
+    private String formatPhoneNumbers(Collection<String> phoneNumbers) {
         StringBuilder stringBuilder = new StringBuilder();
         Iterator<String> iterator = phoneNumbers.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             String phoneNum = iterator.next();
             stringBuilder.append(phoneNum);
-            if(iterator.hasNext()){
+            if (iterator.hasNext()) {
                 stringBuilder.append(", ");
             }
         }
         return stringBuilder.toString();
+    }
+
+    private void updateNewLocation() {
+        newLocation.setText(String.format(getString(R.string.select_location_fs), lat, lon));
     }
 
 }

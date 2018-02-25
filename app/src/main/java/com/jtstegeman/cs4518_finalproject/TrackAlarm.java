@@ -15,8 +15,11 @@ import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
 import com.jtstegeman.cs4518_finalproject.etaSystem.CrowFliesETAEstimator;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETAEstimator;
+import com.jtstegeman.cs4518_finalproject.etaSystem.ETAFactory;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETASystem;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
+import com.jtstegeman.cs4518_finalproject.weather.WeatherManager;
+import com.jtstegeman.cs4518_finalproject.weather.WeatherType;
 
 public class TrackAlarm extends AppCompatActivity {
 
@@ -57,14 +60,21 @@ public class TrackAlarm extends AppCompatActivity {
         Location mLocation = UserLocation.getLocation(this);
         CrowFliesETAEstimator mCrowEstimator = new CrowFliesETAEstimator();
         SharedPreferences settings = this.getSharedPreferences("App", Context.MODE_PRIVATE);
-        ETASystem mEstimator = new ETASystem(mCrowEstimator, settings);
+        ETASystem mEstimator = ETAFactory.getDefaultETASystem(settings);
         Location destLocation = new Location("");
         final double mlatitude = alarm.getLatitude();
         final double mlongitude = alarm.getLongitude();
         destLocation.setLatitude(mlatitude);
         destLocation.setLongitude(mlongitude);
         currentActivity = DetectedActivitiesIntentService.getCurrentActivity(this);
+        WeatherType weather = WeatherManager.getInstance(this).getWeather(this);
+
         int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
+
+        if(settings.getBoolean(getString(R.string.pref_use_weather_key), true)){
+            double newETA = ETA * weather.getTimeMultiplier();
+            ETA = (int) Math.round(newETA);
+        }
 
         int hours = ETA/3600;
         int minutes = (ETA - hours*3600)/60;
