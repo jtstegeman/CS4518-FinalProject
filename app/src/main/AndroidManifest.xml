@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jtstegeman.cs4518_finalproject">
 
-    <meta-data
-        android:name="com.google.android.awareness.API_KEY"
-        android:value="AIzaSyBK8NlmzFYLckWRQWcGuDlo4vnOrDnh_G4"/>
-
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -57,6 +52,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <meta-data
+            android:name="com.google.android.awareness.API_KEY"
+            android:value="AIzaSyBK8NlmzFYLckWRQWcGuDlo4vnOrDnh_G4"/>
+
 
         <activity
             android:name=".MapsActivity"

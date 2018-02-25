@@ -2,9 +2,12 @@ package com.jtstegeman.cs4518_finalproject;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.google.android.gms.awareness.Awareness;
 import com.google.android.gms.awareness.snapshot.WeatherResponse;
@@ -12,32 +15,52 @@ import com.google.android.gms.awareness.state.Weather;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by kyle on 2/25/18.
  */
 
 public class WeatherManager {
 
+    private Context mContext;
+
     private static WeatherManager instance;
 
-    private WeatherType lastWeather;
+    private WeatherType lastWeather = null;
 
-    public WeatherManager(){
-        lastWeather = WeatherType.CLEAR;
+    public WeatherManager(final Context context){
+        mContext = context;
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                checkWeather(mContext);
+            }
+        };
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(timerTask, 0, 1000 * 60 * 10); // Schedule every 5 minutes
     }
 
-    public synchronized static WeatherManager getInstance(){
+    public synchronized static WeatherManager getInstance(final Context context){
         if(instance == null){
-            instance = new WeatherManager();
+            instance = new WeatherManager(context);
         }
         return instance;
     }
 
-    public WeatherType getCurrentWeather(){
+    public WeatherType getWeather(final Context context){
+        if(lastWeather != null){
+            return lastWeather;
+        }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        int weatherID = prefs.getInt("weather", 0);
+        lastWeather = WeatherType.fromID(weatherID);
         return lastWeather;
     }
 
-    public void checkWeather(Context context) {
+    private void checkWeather(Context context) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
             Awareness.getSnapshotClient(context).getWeather().addOnCompleteListener(new OnCompleteListener<WeatherResponse>() {
@@ -46,10 +69,16 @@ public class WeatherManager {
                     WeatherResponse weatherResponse = task.getResult();
                     Weather weather = weatherResponse.getWeather();
                     lastWeather = retrieveConditionType(weather.getConditions().length != 0 ? weather.getConditions()[0] : Weather.CONDITION_CLEAR);
-                    System.out.println(lastWeather);
+                    Log.i("WeatherManager", "Weather: " + lastWeather);
                 }
             });
         }
+    }
+
+    private void setWeather(WeatherType weather, Context context){
+        lastWeather = weather;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putInt("weather", weather.getId()).apply();
     }
 
 

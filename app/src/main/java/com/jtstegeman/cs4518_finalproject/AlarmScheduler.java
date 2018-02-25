@@ -21,8 +21,6 @@ import com.jtstegeman.cs4518_finalproject.etaSystem.ETASystem;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 import com.jtstegeman.cs4518_finalproject.sms.TextMessageHandler;
 
-import java.security.Permission;
-import java.security.Permissions;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -78,7 +76,13 @@ public class AlarmScheduler extends BroadcastReceiver {
         targetLocation.setLatitude(a.getLatitude());
         targetLocation.setLongitude(a.getLongitude());
         UserActivity currentActivity = DetectedActivitiesIntentService.getCurrentActivity(ctx);
+
+        WeatherType weather = WeatherManager.getInstance(ctx).getWeather(ctx);
+
         long travelSeconds = eta.calculateTravelTime(targetLocation, UserLocation.getLocation(ctx), currentActivity);
+
+        if(weather != null)
+            travelSeconds *= weather.getTimeMultiplier();
 
         long travelMillis = travelSeconds*1000;
 
