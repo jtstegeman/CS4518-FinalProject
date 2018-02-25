@@ -195,7 +195,7 @@ public class MakeAlarm extends AppCompatActivity {
     }
 
     private void updateNewLocation() {
-        newLocation.setText(String.format("Select Location - Currently %f, %f", lat, lon));
+        newLocation.setText(String.format(getString(R.string.select_location_fs), lat, lon));
     }
 
 }
