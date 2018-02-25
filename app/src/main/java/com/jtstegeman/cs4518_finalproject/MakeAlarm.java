@@ -55,8 +55,7 @@ public class MakeAlarm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_alarm);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         calendar = Calendar.getInstance();
 
@@ -72,7 +71,7 @@ public class MakeAlarm extends AppCompatActivity {
             eventName.setEnabled(false);
             locationName.setText(alarm.getLocation());
             calendar.setTime(alarm.getTime());
-            toolbar.setTitle(R.string.title_activity_make_alarm_alternative);
+            getSupportActionBar().setTitle(R.string.title_activity_make_alarm_alternative);
             updateNewDate();
             updateNewTime();
         }
