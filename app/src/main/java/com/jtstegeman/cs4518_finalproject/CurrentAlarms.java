@@ -33,18 +33,12 @@ import java.util.List;
 
 public class CurrentAlarms extends AppCompatActivity {
 
-
-    private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
-
     private AlarmAdapter mAdapter;
     private RecyclerView mAlarmRecyclerView;
     private UserActivity currentActivity;
 
-    private boolean mSubtitleVisible;
-
-
     protected void onCreate(Bundle savedInstanceState) {
-        if(Settings.isFirst(this)){
+        if (Settings.isFirst(this)) {
             Intent i = new Intent(this, TutorialActivity.class);
             startActivity(i);
             finish();
@@ -53,10 +47,10 @@ public class CurrentAlarms extends AppCompatActivity {
         WeatherManager.getInstance(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_alarms);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final Context ctx = this;
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,13 +59,8 @@ public class CurrentAlarms extends AppCompatActivity {
         });
         requestSMS();
 
-
-
-
-        mAlarmRecyclerView = (RecyclerView) this
-                .findViewById(R.id.alarm_recycler_view);
+        mAlarmRecyclerView = this.findViewById(R.id.alarm_recycler_view);
         mAlarmRecyclerView.setLayoutManager(new LinearLayoutManager(getParent()));
-
 
         updateUI();
     }
@@ -89,6 +78,7 @@ public class CurrentAlarms extends AppCompatActivity {
         super.onResume();
         updateUI();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -132,14 +122,13 @@ public class CurrentAlarms extends AppCompatActivity {
 
     }
 
-    private class AlarmHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+    private class AlarmHolder extends RecyclerView.ViewHolder {
 
         private AlarmObject mAlarm;
 
         private TextView mName, mTime, mLocation, mETA;
 
-        public AlarmHolder(View itemView){
+        public AlarmHolder(View itemView) {
 
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +152,7 @@ public class CurrentAlarms extends AppCompatActivity {
             mETA = itemView.findViewById(R.id.dataETA);
         }
 
-        public void bindAlarm(AlarmObject alarm){
+        public void bindAlarm(AlarmObject alarm) {
             mAlarm = alarm;
 
             mName.setText(mAlarm.getName());
@@ -181,23 +170,17 @@ public class CurrentAlarms extends AppCompatActivity {
             currentActivity = DetectedActivitiesIntentService.getCurrentActivity(CurrentAlarms.this);
             int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
             WeatherType weather = WeatherManager.getInstance(CurrentAlarms.this).getWeather(CurrentAlarms.this);
-            if(settings.getBoolean(getString(R.string.pref_use_weather_key), true)){
+            if (settings.getBoolean(getString(R.string.pref_use_weather_key), true)) {
                 double newETA = ETA * weather.getTimeMultiplier();
                 ETA = (int) Math.round(newETA);
             }
 
-            int hours = ETA/3600;
-            int minutes = (ETA - hours*3600)/60;
-            int seconds = ETA - hours*3600 - minutes*60;
+            int hours = ETA / 3600;
+            int minutes = (ETA - hours * 3600) / 60;
+            int seconds = ETA - hours * 3600 - minutes * 60;
 
             String sETA = hours + " hours " + minutes + " minutes " + seconds + " seconds";
             mETA.setText(sETA);
-        }
-
-        @Override
-        public void onClick(View v) {
-           // Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
-           // startActivity(intent);
         }
     }
 
@@ -211,8 +194,6 @@ public class CurrentAlarms extends AppCompatActivity {
 
         @Override
         public AlarmHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-
             View view = getLayoutInflater().inflate(R.layout.list_item_alarm, parent, false);
             return new AlarmHolder(view);
         }

@@ -85,7 +85,8 @@ public class MakeAlarm extends AppCompatActivity {
         locationName = findViewById(R.id.newLocation);
         phoneNumbersEditText = findViewById(R.id.phoneNumbers);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED || !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.pref_sms_blast_key), false)) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED ||
+                !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getString(R.string.pref_sms_blast_key), false)) {
             phoneNumbersEditText.setEnabled(false);
         }
 
