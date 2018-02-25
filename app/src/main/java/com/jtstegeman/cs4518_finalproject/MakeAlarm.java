@@ -14,8 +14,16 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
+import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
+
+import java.util.Calendar;
+import java.util.Date;
+
 public class MakeAlarm extends AppCompatActivity {
-    EditText eventName, locationName;
+    private Calendar calendar;
+
+    private EditText eventName, locationName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +31,8 @@ public class MakeAlarm extends AppCompatActivity {
         setContentView(R.layout.activity_make_alarm);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        calendar = Calendar.getInstance();
 
         eventName = findViewById(R.id.newName);
         locationName = findViewById(R.id.newLocation);
@@ -47,6 +57,9 @@ public class MakeAlarm extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 Toast.makeText(MakeAlarm.this, String.format("%d/%d/%d", month, day, year), Toast.LENGTH_LONG).show();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
             }
         });
         picker.show(getFragmentManager(), "datePicker");
@@ -57,7 +70,9 @@ public class MakeAlarm extends AppCompatActivity {
         picker.setListener(new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                Toast.makeText(MakeAlarm.this, String.format("The time is %d:%d", hourOfDay, minute), Toast.LENGTH_LONG).show();
+                Toast.makeText(MakeAlarm.this, String.format("%d:%d", hourOfDay, minute), Toast.LENGTH_LONG).show();
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
             }
         });
         picker.show(getFragmentManager(), "timePicker");
@@ -67,7 +82,11 @@ public class MakeAlarm extends AppCompatActivity {
         finish();
     }
     public void confirmNewAlarm(View v) {
-
+        AlarmObject alarm = new AlarmObject(eventName.getText().toString());
+        alarm.setLocation(locationName.getText().toString());
+        alarm.setTime(calendar.getTime());
+        AlarmHelper.getInstance(this).create(alarm);
+        finish();
     }
 
 }
