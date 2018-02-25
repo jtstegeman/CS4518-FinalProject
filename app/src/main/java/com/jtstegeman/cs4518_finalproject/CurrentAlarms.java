@@ -3,7 +3,9 @@ package com.jtstegeman.cs4518_finalproject;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -20,6 +22,9 @@ import android.widget.TextView;
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
 import com.jtstegeman.cs4518_finalproject.weather.WeatherManager;
+import com.jtstegeman.cs4518_finalproject.etaSystem.CrowFliesETAEstimator;
+import com.jtstegeman.cs4518_finalproject.etaSystem.ETASystem;
+import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 
 import java.util.List;
 
@@ -30,6 +35,8 @@ public class CurrentAlarms extends AppCompatActivity {
 
     private AlarmAdapter mAdapter;
     private RecyclerView mAlarmRecyclerView;
+    private UserActivity currentActivity;
+
     private boolean mSubtitleVisible;
 
 
@@ -129,6 +136,7 @@ public class CurrentAlarms extends AppCompatActivity {
 
         private TextView mTime;
         private TextView mLocation;
+        private TextView mETA;
 
         public AlarmHolder(View itemView){
 
@@ -151,6 +159,7 @@ public class CurrentAlarms extends AppCompatActivity {
 
             mTime = (TextView) itemView.findViewById(R.id.dataTime);
             mLocation = (TextView) itemView.findViewById(R.id.dataLocation);
+            mETA = (TextView) itemView.findViewById(R.id.dataETA);
         }
 
         public void bindAlarm(AlarmObject alarm){
@@ -158,6 +167,26 @@ public class CurrentAlarms extends AppCompatActivity {
 
             mTime.setText(mAlarm.getTime().toString());
             mLocation.setText(mAlarm.getLocation());
+
+            Location mLocation = UserLocation.getLocation(CurrentAlarms.this);
+            CrowFliesETAEstimator mCrowEstimator = new CrowFliesETAEstimator();
+            SharedPreferences settings = CurrentAlarms.this.getSharedPreferences("App", Context.MODE_PRIVATE);
+            ETASystem mEstimator = new ETASystem(mCrowEstimator, settings);
+            Location destLocation = new Location("");
+            final double mlatitude = alarm.getLatitude();
+            final double mlongitude = alarm.getLongitude();
+            destLocation.setLatitude(mlatitude);
+            destLocation.setLongitude(mlongitude);
+            currentActivity = DetectedActivitiesIntentService.getCurrentActivity(CurrentAlarms.this);
+            int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
+
+
+            int hours = ETA/3600;
+            int minutes = (ETA - hours*3600)/60;
+            int seconds = ETA - hours*3600 - minutes*60;
+
+            String sETA = hours + " hours " + minutes + " minutes " + seconds + " seconds";
+            mETA.setText(sETA);
         }
 
         @Override

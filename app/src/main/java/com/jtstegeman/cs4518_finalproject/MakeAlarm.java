@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
@@ -31,12 +32,15 @@ public class MakeAlarm extends AppCompatActivity {
     public static final String EXTRA_ALARM_NAME = "alarm_name";
     public static final int MODE_MAKE = 1;
     public static final int MODE_EDIT = 2;
+    private static final int PLACE_PICKER_REQUEST = 1;
 
     private int mode;
     private Calendar calendar;
 
     private Button newDate, newTime;
     private EditText eventName, locationName;
+
+    private double lat, lon;
 
     public static Intent getMakeAlarmIntent(Context context) {
         Intent intent = new Intent(context, MakeAlarm.class);
@@ -58,6 +62,7 @@ public class MakeAlarm extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         calendar = Calendar.getInstance();
+
 
         newDate = findViewById(R.id.newDate);
         newTime = findViewById(R.id.newTime);
@@ -102,9 +107,7 @@ public class MakeAlarm extends AppCompatActivity {
     }
 
     public void selectNewLocation(View v) {
-        //startActivity(new Intent(this, MapsActivity.class));
 
-        int PLACE_PICKER_REQUEST = 1;
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
         try {
@@ -114,7 +117,18 @@ public class MakeAlarm extends AppCompatActivity {
         } catch (GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
         }
+    }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                String toastMsg = String.format("Place: %s", place.getName());
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                lat = place.getLatLng().latitude;
+                lon = place.getLatLng().longitude;
+            }
+        }
     }
 
     public void selectNewDate(View v) {
@@ -148,6 +162,8 @@ public class MakeAlarm extends AppCompatActivity {
         AlarmObject alarm = new AlarmObject(eventName.getText().toString());
         alarm.setLocation(locationName.getText().toString());
         alarm.setTime(calendar.getTime());
+        alarm.setLatitude(lat);
+        alarm.setLongitude(lon);
         if (mode == MODE_MAKE) {
             AlarmHelper.getInstance(this).create(alarm);
         } else if (mode == MODE_EDIT) {

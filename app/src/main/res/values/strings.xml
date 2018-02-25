@@ -45,8 +45,12 @@
     <string name="navigate_google_maps">open navigation in Google Maps</string>
     <string name="new_shortcut_short_label">New event</string>
     <string name="new_shortcut_long_label">Create new event</string>
+<<<<<<< HEAD
     <string name="weather_tutorial_title">Considers the Weather</string>
     <string name="weather_tutorial_content">Weather factors into the travel time</string>
     <string name="pref_weather_title">Use weather</string>
     <string name="pref_weather_summary">Factor the weather into travel times.</string>
+=======
+    <string name="eta">ETA</string>
+>>>>>>> GUI
 </resources>
