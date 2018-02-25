@@ -184,7 +184,13 @@ public class CurrentAlarms extends AppCompatActivity {
             currentActivity = DetectedActivitiesIntentService.getCurrentActivity(getParent());
             int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
 
-            mETA.setText(String.valueOf(ETA));
+
+            int hours = ETA/3600;
+            int minutes = (ETA - hours*3600)/60;
+            int seconds = ETA - hours*3600 - minutes*60;
+
+            String sETA = hours + " hours" + minutes + " minutes" + seconds + " seconds";
+            mETA.setText(sETA);
         }
 
         @Override
