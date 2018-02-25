@@ -90,7 +90,7 @@ public class TrackAlarm extends AppCompatActivity {
         mGoogleMapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String UriString = "goofle.navigation:q" + String.valueOf(mlatitude) + "," + String.valueOf(mlongitude);
+                String UriString = "google.navigation:q=" + String.valueOf(mlatitude) + "," + String.valueOf(mlongitude);
                 Uri mUri = Uri.parse(UriString);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, mUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
