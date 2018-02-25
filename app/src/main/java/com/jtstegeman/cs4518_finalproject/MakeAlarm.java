@@ -169,6 +169,7 @@ public class MakeAlarm extends AppCompatActivity {
         } else if (mode == MODE_EDIT) {
             AlarmHelper.getInstance(this).update(alarm);
         }
+        AlarmScheduler.schedule(alarm, this);
         finish();
     }
 
