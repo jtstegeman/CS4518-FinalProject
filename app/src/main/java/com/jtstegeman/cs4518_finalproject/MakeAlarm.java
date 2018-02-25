@@ -6,8 +6,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class MakeAlarm extends AppCompatActivity {
+
+    Button selectLocation, selectTime, cancel, confirm;
+    EditText eventName, locationName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +20,14 @@ public class MakeAlarm extends AppCompatActivity {
         setContentView(R.layout.activity_make_alarm);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        eventName = findViewById(R.id.newName);
+        locationName = findViewById(R.id.newLocation);
+
+        selectLocation = findViewById(R.id.newGPSLocation);
+        selectTime = findViewById(R.id.newTime);
+        cancel = findViewById(R.id.newCancel);
+        confirm = findViewById(R.id.newConfirm);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
