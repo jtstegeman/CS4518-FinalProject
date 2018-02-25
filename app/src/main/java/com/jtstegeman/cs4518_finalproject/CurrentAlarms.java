@@ -55,13 +55,7 @@ public class CurrentAlarms extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                AlarmObject a= new AlarmObject("Test 1");
-                a.setTime(new Date(System.currentTimeMillis()+60000*9));
-                a.setLocation("somewhere over the rainbow");
-                AlarmScheduler scheduler = new AlarmScheduler(a);
-                scheduler.schedule(ctx);
+                startActivity(new Intent(this, MakeAlarm.class));
 
                 updateUI();
             }

@@ -26,4 +26,8 @@ public class MakeAlarm extends AppCompatActivity {
         });
     }
 
+    public void selectNewDate(View v){
+        //TODO: Add code from CriminalIntent project for bringing up the date selector
+
+    }
 }
