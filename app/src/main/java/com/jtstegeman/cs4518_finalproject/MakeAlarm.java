@@ -73,7 +73,6 @@ public class MakeAlarm extends AppCompatActivity {
         Intent seed = getIntent();
         if ((mode = seed.getIntExtra(EXTRA_MODE, MODE_MAKE)) == MODE_EDIT) {
             AlarmObject alarm = AlarmHelper.getInstance(this).get(seed.getStringExtra(EXTRA_ALARM_NAME));
-            AlarmScheduler.cancel(alarm, this);
             eventName.setText(alarm.getName());
             eventName.setEnabled(false);
             locationName.setText(alarm.getLocation());

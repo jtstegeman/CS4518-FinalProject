@@ -153,6 +153,7 @@ public class CurrentAlarms extends AppCompatActivity {
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
+                    AlarmScheduler.cancel(mAlarm, CurrentAlarms.this);
                     startActivity(MakeAlarm.getEditAlarmIntent(CurrentAlarms.this, mAlarm));
                     return true;
                 }
