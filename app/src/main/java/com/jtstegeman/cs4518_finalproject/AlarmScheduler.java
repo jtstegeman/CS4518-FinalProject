@@ -100,7 +100,7 @@ public class AlarmScheduler extends BroadcastReceiver {
                 a.setNotificationState(AlarmObject.WARNING_LATE);
                 AlarmHelper.getInstance(ctx).update(a);
                 EtaNotify.getInstance(ctx).publishNotification(ctx,"You are late!!!", "You have to hurry up to make the meeting: "+a.getName()+"\nExpected Arival: "+arivalTime);
-                if(ContextCompat.checkSelfPermission(ctx, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED && prefs.getBoolean(ctx.getString(R.string.pref_sms_blast_key), false)) {
                     TextMessageHandler.sendSMS(a.getPhoneNumbers(), "I'm going to be late to the meeting, I will probably arrive at " + arivalTime);
                 }
             }

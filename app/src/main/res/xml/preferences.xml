@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="@string/pref_disregard_long_distances_key"
+        android:title="@string/pref_disregard_long_distances"
+        android:summary="@string/pref_disregard_long_distances_summ"
+        android:defaultValue="true" />
+    <CheckBoxPreference
+        android:key="@string/pref_sms_blast_key"
+        android:title="@string/pref_sms_blast"
+        android:summary="@string/pref_sms_blast_summ"
+        android:defaultValue="false" />
+</PreferenceScreen>
