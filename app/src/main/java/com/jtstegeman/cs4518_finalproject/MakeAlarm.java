@@ -69,7 +69,6 @@ public class MakeAlarm extends AppCompatActivity {
             locationName.setText(alarm.getLocation());
             calendar.setTime(alarm.getTime());
             toolbar.setTitle(R.string.title_activity_make_alarm_alternative);
-            findViewById(R.id.action_delete).setVisibility(View.VISIBLE);
             updateNewDate();
             updateNewTime();
         }
@@ -78,6 +77,7 @@ public class MakeAlarm extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_make_alarm, menu);
+        if (mode == MODE_EDIT) findViewById(R.id.action_delete).setVisibility(View.VISIBLE);
         return true;
     }
 
