@@ -12,15 +12,17 @@ import java.util.Calendar;
  */
 
 public class DatePickerFragment extends DialogFragment {
+    private Calendar calendar;
     private DatePickerDialog.OnDateSetListener listener;
 
-    public void setListener(DatePickerDialog.OnDateSetListener listener) {
+    public DatePickerFragment(Calendar calendar, DatePickerDialog.OnDateSetListener listener) {
+        super();
+        this.calendar = calendar;
         this.listener = listener;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar c = Calendar.getInstance();
-        return new DatePickerDialog(getActivity(), listener, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        return new DatePickerDialog(getActivity(), listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }
 }

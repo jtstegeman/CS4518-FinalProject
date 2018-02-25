@@ -13,15 +13,17 @@ import java.util.Calendar;
  */
 
 public class TimePickerFragment extends DialogFragment {
+    private Calendar calendar;
     private TimePickerDialog.OnTimeSetListener listener;
 
-    public void setListener(TimePickerDialog.OnTimeSetListener listener) {
+    public TimePickerFragment(Calendar calendar, TimePickerDialog.OnTimeSetListener listener) {
+        super();
+        this.calendar = calendar;
         this.listener = listener;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar c = Calendar.getInstance();
-        return new TimePickerDialog(getActivity(), listener, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), DateFormat.is24HourFormat(getActivity()));
+        return new TimePickerDialog(getActivity(), listener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(getActivity()));
     }
 }

@@ -144,8 +144,7 @@ public class MakeAlarm extends AppCompatActivity {
     }
 
     public void selectNewDate(View v) {
-        DatePickerFragment picker = new DatePickerFragment();
-        picker.setListener(new DatePickerDialog.OnDateSetListener() {
+        DatePickerFragment picker = new DatePickerFragment(calendar, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 calendar.set(Calendar.YEAR, year);
@@ -158,8 +157,7 @@ public class MakeAlarm extends AppCompatActivity {
     }
 
     public void selectNewTime(View v) {
-        TimePickerFragment picker = new TimePickerFragment();
-        picker.setListener(new TimePickerDialog.OnTimeSetListener() {
+        TimePickerFragment picker = new TimePickerFragment(calendar, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
