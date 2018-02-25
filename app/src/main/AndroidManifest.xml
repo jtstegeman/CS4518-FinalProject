@@ -59,9 +59,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_places_key" />
         
-        <activity android:name=".TrackAlarm"></activity>
+        <activity android:name=".TrackAlarm"
             android:label="@string/title_activity_maps"
-            android:parentActivityName=".MakeAlarm" />
+            android:parentActivityName=".CurrentAlarms" />
     </application>
 
 </manifest>
