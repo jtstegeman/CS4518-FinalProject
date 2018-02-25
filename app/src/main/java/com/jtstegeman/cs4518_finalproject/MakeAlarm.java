@@ -125,7 +125,8 @@ public class MakeAlarm extends AppCompatActivity {
                 Place place = PlacePicker.getPlace(data, this);
                 String toastMsg = String.format("Place: %s", place.getName());
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-
+                lat = place.getLatLng().latitude;
+                lon = place.getLatLng().longitude;
             }
         }
     }
@@ -161,8 +162,8 @@ public class MakeAlarm extends AppCompatActivity {
         AlarmObject alarm = new AlarmObject(eventName.getText().toString());
         alarm.setLocation(locationName.getText().toString());
         alarm.setTime(calendar.getTime());
-        alarm.setLatitude(40);
-        alarm.setLongitude(-71.0);
+        alarm.setLatitude(lat);
+        alarm.setLongitude(lon);
         if (mode == MODE_MAKE) {
             AlarmHelper.getInstance(this).create(alarm);
         } else if (mode == MODE_EDIT) {
