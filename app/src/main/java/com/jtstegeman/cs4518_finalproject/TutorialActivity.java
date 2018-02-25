@@ -22,6 +22,7 @@ import com.jtstegeman.cs4518_finalproject.tutorial.LocationTutorialContent;
 import com.jtstegeman.cs4518_finalproject.tutorial.MainTutorialContent;
 import com.jtstegeman.cs4518_finalproject.tutorial.SMSTutorialContent;
 import com.jtstegeman.cs4518_finalproject.tutorial.WeatherTutorialContent;
+import com.jtstegeman.cs4518_finalproject.weather.WeatherManager;
 
 /**
  * Created by kyle on 9/6/15.
@@ -99,9 +100,11 @@ public class TutorialActivity extends FragmentActivity {
                 }
 
                 switch (position){
-                    case 1: // Fall through
-                    case 2:
+                    case 1:
                         requestLocationPermission();
+                        break;
+                    case 2:
+                        WeatherManager.getInstance(getApplicationContext());
                         break;
                     case 3:
                         requestSMSPermission();
