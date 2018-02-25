@@ -37,7 +37,7 @@ public class MakeAlarm extends AppCompatActivity {
     private int mode;
     private Calendar calendar;
 
-    private Button newDate, newTime;
+    private Button newDate, newTime, newLocation;
     private EditText eventName, locationName;
 
     private double lat, lon;
@@ -62,10 +62,12 @@ public class MakeAlarm extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         calendar = Calendar.getInstance();
-
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 
         newDate = findViewById(R.id.newDate);
         newTime = findViewById(R.id.newTime);
+        newLocation = findViewById(R.id.newGPSLocation);
         eventName = findViewById(R.id.newName);
         locationName = findViewById(R.id.newLocation);
 
@@ -76,9 +78,12 @@ public class MakeAlarm extends AppCompatActivity {
             eventName.setEnabled(false);
             locationName.setText(alarm.getLocation());
             calendar.setTime(alarm.getTime());
+            lat = alarm.getLatitude();
+            lon = alarm.getLongitude();
             getSupportActionBar().setTitle(R.string.title_activity_make_alarm_alternative);
             updateNewDate();
             updateNewTime();
+            updateNewLocation();
         }
     }
 
@@ -127,6 +132,7 @@ public class MakeAlarm extends AppCompatActivity {
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
                 lat = place.getLatLng().latitude;
                 lon = place.getLatLng().longitude;
+                updateNewLocation();
             }
         }
     }
@@ -187,6 +193,10 @@ public class MakeAlarm extends AppCompatActivity {
     private void updateNewTime() {
         newTime.setText(String.format(getString(R.string.select_time_fs),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)));
+    }
+
+    private void updateNewLocation() {
+        newLocation.setText(String.format(getString(R.string.select_location_fs), lat, lon));
     }
 
 }
