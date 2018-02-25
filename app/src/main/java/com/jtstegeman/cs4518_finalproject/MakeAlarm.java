@@ -2,6 +2,7 @@ package com.jtstegeman.cs4518_finalproject;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +19,27 @@ import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
 import java.util.Calendar;
 
 public class MakeAlarm extends AppCompatActivity {
+    public static final String EXTRA_MODE = "mode";
+    public static final String EXTRA_ALARM_NAME = "alarm_name";
+    public static final int MODE_MAKE = 1;
+    public static final int MODE_EDIT = 2;
+
     private Calendar calendar;
 
     private EditText eventName, locationName;
+
+    public static Intent getMakeAlarmIntent(Context context) {
+        Intent intent = new Intent(context, MakeAlarm.class);
+        intent.putExtra(EXTRA_MODE, MODE_MAKE);
+        return intent;
+    }
+
+    public static Intent getEditAlarmIntent(Context context, AlarmObject alarm) {
+        Intent intent = new Intent(context, MakeAlarm.class);
+        intent.putExtra(EXTRA_MODE, MODE_EDIT);
+        intent.putExtra(EXTRA_ALARM_NAME, alarm.getName());
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

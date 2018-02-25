@@ -55,10 +55,7 @@ public class CurrentAlarms extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CurrentAlarms.this, MakeAlarm.class));
-
-                updateUI();
-
+                startActivity(MakeAlarm.getMakeAlarmIntent(CurrentAlarms.this));
             }
         });
         requestSMS();
