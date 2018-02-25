@@ -39,4 +39,6 @@
     <string name="title_activity_make_alarm">Make Alarm</string>
     <string name="title_activity_make_alarm_alternative">Edit Alarm</string>
     <string name="title_activity_maps">Map</string>
+    <string name="new_shortcut_short_label">New event</string>
+    <string name="new_shortcut_long_label">Create new event</string>
 </resources>
