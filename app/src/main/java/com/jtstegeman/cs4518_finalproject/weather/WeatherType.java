@@ -1,4 +1,4 @@
-package com.jtstegeman.cs4518_finalproject;
+package com.jtstegeman.cs4518_finalproject.weather;
 
 /**
  * Created by kyle on 2/25/18.

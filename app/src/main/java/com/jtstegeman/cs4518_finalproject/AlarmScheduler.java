@@ -20,6 +20,8 @@ import com.jtstegeman.cs4518_finalproject.etaSystem.ETAFactory;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETASystem;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 import com.jtstegeman.cs4518_finalproject.sms.TextMessageHandler;
+import com.jtstegeman.cs4518_finalproject.weather.WeatherManager;
+import com.jtstegeman.cs4518_finalproject.weather.WeatherType;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -81,8 +83,10 @@ public class AlarmScheduler extends BroadcastReceiver {
 
         long travelSeconds = eta.calculateTravelTime(targetLocation, UserLocation.getLocation(ctx), currentActivity);
 
-        if(weather != null)
+        if(weather != null) {
             travelSeconds *= weather.getTimeMultiplier();
+            Log.i("Weather", weather + " condition, applying multiplier of " + weather.getTimeMultiplier() + " to make time " + travelSeconds);
+        }
 
         long travelMillis = travelSeconds*1000;
 

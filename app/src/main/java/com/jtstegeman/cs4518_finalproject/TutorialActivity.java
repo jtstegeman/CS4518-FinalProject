@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.jtstegeman.cs4518_finalproject.tutorial.LocationTutorialContent;
 import com.jtstegeman.cs4518_finalproject.tutorial.MainTutorialContent;
 import com.jtstegeman.cs4518_finalproject.tutorial.SMSTutorialContent;
+import com.jtstegeman.cs4518_finalproject.tutorial.WeatherTutorialContent;
 
 /**
  * Created by kyle on 9/6/15.
@@ -30,7 +31,7 @@ public class TutorialActivity extends FragmentActivity {
     private static int MY_PERMISSIONS_REQUEST_SEND_SMS = 100;
 
 
-    private static final int NUM_PAGES = 3;
+    private static final int NUM_PAGES = 4;
 
     private ViewPager mPager;
 
@@ -98,10 +99,11 @@ public class TutorialActivity extends FragmentActivity {
                 }
 
                 switch (position){
-                    case 1:
+                    case 1: // Fall through
+                    case 2:
                         requestLocationPermission();
                         break;
-                    case 2:
+                    case 3:
                         requestSMSPermission();
                         break;
 
@@ -140,6 +142,8 @@ public class TutorialActivity extends FragmentActivity {
                 case 1:
                     return new LocationTutorialContent();
                 case 2:
+                    return new WeatherTutorialContent();
+                case 3:
                     return new SMSTutorialContent();
             }
             return null;

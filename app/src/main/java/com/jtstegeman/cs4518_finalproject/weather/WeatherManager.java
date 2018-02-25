@@ -1,4 +1,4 @@
-package com.jtstegeman.cs4518_finalproject;
+package com.jtstegeman.cs4518_finalproject.weather;
 
 import android.Manifest;
 import android.content.Context;
