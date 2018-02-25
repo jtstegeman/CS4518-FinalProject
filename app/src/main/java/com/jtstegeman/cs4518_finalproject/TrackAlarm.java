@@ -70,7 +70,7 @@ public class TrackAlarm extends AppCompatActivity {
         int minutes = (ETA - hours*3600)/60;
         int seconds = ETA - hours*3600 - minutes*60;
 
-        String sETA = hours + " hours" + minutes + " minutes" + seconds + " seconds";
+        String sETA = hours + " hours " + minutes + " minutes " + seconds + " seconds ";
 
         mETATextView.setText(sETA);
         mLocationTextView.setText(alarm.getLocation());

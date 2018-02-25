@@ -164,6 +164,7 @@ public class CurrentAlarms extends AppCompatActivity {
 
             mTime = (TextView) itemView.findViewById(R.id.dataTime);
             mLocation = (TextView) itemView.findViewById(R.id.dataLocation);
+            mETA = (TextView) itemView.findViewById(R.id.dataETA);
         }
 
         public void bindAlarm(AlarmObject alarm){
@@ -172,16 +173,16 @@ public class CurrentAlarms extends AppCompatActivity {
             mTime.setText(mAlarm.getTime().toString());
             mLocation.setText(mAlarm.getLocation());
 
-            Location mLocation = UserLocation.getLocation(getParent());
+            Location mLocation = UserLocation.getLocation(CurrentAlarms.this);
             CrowFliesETAEstimator mCrowEstimator = new CrowFliesETAEstimator();
-            SharedPreferences settings = getParent().getSharedPreferences("App", Context.MODE_PRIVATE);
+            SharedPreferences settings = CurrentAlarms.this.getSharedPreferences("App", Context.MODE_PRIVATE);
             ETASystem mEstimator = new ETASystem(mCrowEstimator, settings);
             Location destLocation = new Location("");
             final double mlatitude = alarm.getLatitude();
             final double mlongitude = alarm.getLongitude();
             destLocation.setLatitude(mlatitude);
             destLocation.setLongitude(mlongitude);
-            currentActivity = DetectedActivitiesIntentService.getCurrentActivity(getParent());
+            currentActivity = DetectedActivitiesIntentService.getCurrentActivity(CurrentAlarms.this);
             int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
 
 
@@ -189,7 +190,7 @@ public class CurrentAlarms extends AppCompatActivity {
             int minutes = (ETA - hours*3600)/60;
             int seconds = ETA - hours*3600 - minutes*60;
 
-            String sETA = hours + " hours" + minutes + " minutes" + seconds + " seconds";
+            String sETA = hours + " hours " + minutes + " minutes " + seconds + " seconds";
             mETA.setText(sETA);
         }
 
