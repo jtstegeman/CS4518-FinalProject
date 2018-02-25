@@ -10,4 +10,9 @@
         android:title="@string/pref_sms_blast"
         android:summary="@string/pref_sms_blast_summ"
         android:defaultValue="false" />
+    <CheckBoxPreference
+        android:key="@string/pref_use_weather_key"
+        android:title="@string/pref_weather_title"
+        android:summary="@string/pref_weather_summary"
+        android:defaultValue="true"/>
 </PreferenceScreen>

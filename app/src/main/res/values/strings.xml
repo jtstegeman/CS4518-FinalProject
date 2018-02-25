@@ -30,6 +30,7 @@
     <string name="sms_tutorial_content">Automatically notify your teammates that you will be late, and when you\'ll get there.</string>
     <string name="sms_tutorial_title">SMS Capability</string>
     <string name="pref_first_time_key">pref_first_time</string>
+    <string name="pref_use_weather_key">pref_use_weather</string>
     <string name="pref_disregard_long_distances_key">pref_disregard_long_distances</string>
     <string name="pref_disregard_long_distances">Disregard long distances</string>
     <string name="pref_disregard_long_distances_summ"></string>
@@ -46,4 +47,6 @@
     <string name="new_shortcut_long_label">Create new event</string>
     <string name="weather_tutorial_title">Considers the Weather</string>
     <string name="weather_tutorial_content">Weather factors into the travel time</string>
+    <string name="pref_weather_title">Use weather</string>
+    <string name="pref_weather_summary">Factor the weather into travel times.</string>
 </resources>

@@ -83,7 +83,7 @@ public class AlarmScheduler extends BroadcastReceiver {
 
         long travelSeconds = eta.calculateTravelTime(targetLocation, UserLocation.getLocation(ctx), currentActivity);
 
-        if(weather != null) {
+        if(weather != null && prefs.getBoolean(ctx.getString(R.string.pref_use_weather_key), true)) {
             travelSeconds *= weather.getTimeMultiplier();
             Log.i("Weather", weather + " condition, applying multiplier of " + weather.getTimeMultiplier() + " to make time " + travelSeconds);
         }
