@@ -204,7 +204,7 @@ public class MakeAlarm extends AppCompatActivity {
     private Collection<String> getPhoneNumbers(){
         String text = phoneNumbersEditText.getText().toString();
         List<String> phoneNumbers = new LinkedList<>();
-        String[] nums = text.split(", ");
+        String[] nums = text.split(", *");
         for (String num: nums){
             if(isPhoneNumber(num)) {
                 phoneNumbers.add(formatPhoneNumber(num));
