@@ -16,21 +16,33 @@
         android:paddingRight="@dimen/horizontalPadding"
         android:paddingTop="@dimen/verticalPadding">
 
-        <EditText
-            android:id="@+id/newName"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/event_name" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/newLocation"
+            <EditText
+                android:id="@+id/newName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/event_name" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/location_nick_name" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/newLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/location_nick_name" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/newGPSLocation"
