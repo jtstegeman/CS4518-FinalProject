@@ -160,8 +160,7 @@ public class CurrentAlarms extends AppCompatActivity {
             mLocation.setText(mAlarm.getLocation());
 
             Location mLocation = UserLocation.getLocation(CurrentAlarms.this);
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(CurrentAlarms.this);
-            ETASystem mEstimator = ETAFactory.getDefaultETASystem(settings);
+            ETASystem mEstimator = ETAFactory.getDefaultETASystem(CurrentAlarms.this);
             Location destLocation = new Location("");
             final double mlatitude = alarm.getLatitude();
             final double mlongitude = alarm.getLongitude();
@@ -169,11 +168,6 @@ public class CurrentAlarms extends AppCompatActivity {
             destLocation.setLongitude(mlongitude);
             currentActivity = DetectedActivitiesIntentService.getCurrentActivity(CurrentAlarms.this);
             int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
-            WeatherType weather = WeatherManager.getInstance(CurrentAlarms.this).getWeather(CurrentAlarms.this);
-            if (settings.getBoolean(getString(R.string.pref_use_weather_key), true)) {
-                double newETA = ETA * weather.getTimeMultiplier();
-                ETA = (int) Math.round(newETA);
-            }
 
             int hours = ETA / 3600;
             int minutes = (ETA - hours * 3600) / 60;

@@ -73,20 +73,13 @@ public class AlarmScheduler extends BroadcastReceiver {
         Date now = calendar.getTime();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        ETASystem eta = ETAFactory.getDefaultETASystem(prefs);
+        ETASystem eta = ETAFactory.getDefaultETASystem(ctx);
         Location targetLocation = new Location("");
         targetLocation.setLatitude(a.getLatitude());
         targetLocation.setLongitude(a.getLongitude());
         UserActivity currentActivity = DetectedActivitiesIntentService.getCurrentActivity(ctx);
 
-        WeatherType weather = WeatherManager.getInstance(ctx).getWeather(ctx);
-
         long travelSeconds = eta.calculateTravelTime(targetLocation, UserLocation.getLocation(ctx), currentActivity);
-
-        if(weather != null && prefs.getBoolean(ctx.getString(R.string.pref_use_weather_key), true)) {
-            travelSeconds *= weather.getTimeMultiplier();
-            Log.i("Weather", weather + " condition, applying multiplier of " + weather.getTimeMultiplier() + " to make time " + travelSeconds);
-        }
 
         long travelMillis = travelSeconds*1000;
 
@@ -188,7 +181,7 @@ public class AlarmScheduler extends BroadcastReceiver {
 
     public String getEstimatedArival(Context ctx){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        ETASystem eta = ETAFactory.getDefaultETASystem(prefs);
+        ETASystem eta = ETAFactory.getDefaultETASystem(ctx);
         Location targetLocation = new Location("");
         targetLocation.setLatitude(a.getLatitude());
         targetLocation.setLongitude(a.getLongitude());
