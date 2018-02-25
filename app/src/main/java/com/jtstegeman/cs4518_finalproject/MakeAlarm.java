@@ -37,7 +37,7 @@ public class MakeAlarm extends AppCompatActivity {
     private int mode;
     private Calendar calendar;
 
-    private Button newDate, newTime;
+    private Button newDate, newTime, newLocation;
     private EditText eventName, locationName;
 
     private double lat, lon;
@@ -66,19 +66,24 @@ public class MakeAlarm extends AppCompatActivity {
 
         newDate = findViewById(R.id.newDate);
         newTime = findViewById(R.id.newTime);
+        newLocation = findViewById(R.id.newGPSLocation);
         eventName = findViewById(R.id.newName);
         locationName = findViewById(R.id.newLocation);
 
         Intent seed = getIntent();
         if ((mode = seed.getIntExtra(EXTRA_MODE, MODE_MAKE)) == MODE_EDIT) {
             AlarmObject alarm = AlarmHelper.getInstance(this).get(seed.getStringExtra(EXTRA_ALARM_NAME));
+            AlarmScheduler.cancel(alarm, this);
             eventName.setText(alarm.getName());
             eventName.setEnabled(false);
             locationName.setText(alarm.getLocation());
             calendar.setTime(alarm.getTime());
+            lat = alarm.getLatitude();
+            lon = alarm.getLongitude();
             getSupportActionBar().setTitle(R.string.title_activity_make_alarm_alternative);
             updateNewDate();
             updateNewTime();
+            updateNewLocation();
         }
     }
 
@@ -127,6 +132,7 @@ public class MakeAlarm extends AppCompatActivity {
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
                 lat = place.getLatLng().latitude;
                 lon = place.getLatLng().longitude;
+                updateNewLocation();
             }
         }
     }
@@ -187,6 +193,10 @@ public class MakeAlarm extends AppCompatActivity {
     private void updateNewTime() {
         newTime.setText(String.format(getString(R.string.select_time_fs),
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)));
+    }
+
+    private void updateNewLocation() {
+        newLocation.setText(String.format("Select Location - Currently %f, %f", lat, lon));
     }
 
 }
