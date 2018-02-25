@@ -1,5 +1,6 @@
 package com.jtstegeman.cs4518_finalproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -33,7 +34,7 @@ public class MakeAlarm extends AppCompatActivity {
     }
 
     public void selectNewLocation(View v){
-
+        startActivity(new Intent(this, MapsActivity.class));
     }
 
     public void selectNewDate(View v){
