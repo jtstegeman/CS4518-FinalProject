@@ -35,7 +35,7 @@ public class TrackAlarm extends AppCompatActivity {
 
 
     public static Intent getAlarmIntent(Context context, AlarmObject alarm) {
-        Intent intent = new Intent(context, MakeAlarm.class);
+        Intent intent = new Intent(context, TrackAlarm.class);
         intent.putExtra(EXTRA_ALARM_NAME, alarm.getName());
         return intent;
     }
