@@ -57,6 +57,7 @@ public class TrackAlarm extends AppCompatActivity {
 
         AlarmObject alarm = AlarmHelper.getInstance(this).get(seed.getStringExtra(EXTRA_ALARM_NAME));
 
+        getSupportActionBar().setTitle(alarm.getName());
         Location mLocation = UserLocation.getLocation(this);
         SharedPreferences settings = this.getSharedPreferences("App", Context.MODE_PRIVATE);
         ETASystem mEstimator = ETAFactory.getDefaultETASystem(settings);
