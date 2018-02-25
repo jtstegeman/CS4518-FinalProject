@@ -51,9 +51,9 @@ public class MakeAlarm extends AppCompatActivity {
     private Button newDate, newTime, newLocation;
     private EditText eventName, locationName, phoneNumbersEditText;
 
-    Location current = UserLocation.getLocation(this);
-    private double lat = current.getLatitude();
-    private double lon = current.getLongitude();
+    Location current;
+    private double lat;
+    private double lon;
 
     public static Intent getMakeAlarmIntent(Context context) {
         Intent intent = new Intent(context, MakeAlarm.class);
@@ -73,6 +73,10 @@ public class MakeAlarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_alarm);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        current = UserLocation.getLocation(this);
+        lat = current.getLatitude();
+        lon = current.getLongitude();
 
         calendar = Calendar.getInstance();
         calendar.set(Calendar.SECOND, 0);
