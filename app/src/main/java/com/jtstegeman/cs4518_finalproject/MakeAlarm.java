@@ -7,12 +7,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
@@ -49,7 +55,7 @@ public class MakeAlarm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_alarm);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         calendar = Calendar.getInstance();
@@ -66,13 +72,50 @@ public class MakeAlarm extends AppCompatActivity {
             eventName.setEnabled(false);
             locationName.setText(alarm.getLocation());
             calendar.setTime(alarm.getTime());
+            toolbar.setTitle(R.string.title_activity_make_alarm_alternative);
             updateNewDate();
             updateNewTime();
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_make_alarm, menu);
+        if (mode == MODE_EDIT) menu.findItem(R.id.action_delete).setVisible(true);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_cancel:
+                finish();
+                return true;
+            case R.id.action_save:
+                confirmNewAlarm();
+                return true;
+            case R.id.action_delete:
+                deleteAlarm();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void selectNewLocation(View v) {
-        startActivity(new Intent(this, MapsActivity.class));
+        //startActivity(new Intent(this, MapsActivity.class));
+
+        int PLACE_PICKER_REQUEST = 1;
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+        try {
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void selectNewDate(View v) {
@@ -102,10 +145,7 @@ public class MakeAlarm extends AppCompatActivity {
         picker.show(getFragmentManager(), "timePicker");
     }
 
-    public void cancelNewAlarm(View v) {
-        finish();
-    }
-    public void confirmNewAlarm(View v) {
+    private void confirmNewAlarm() {
         AlarmObject alarm = new AlarmObject(eventName.getText().toString());
         alarm.setLocation(locationName.getText().toString());
         alarm.setTime(calendar.getTime());
@@ -114,6 +154,11 @@ public class MakeAlarm extends AppCompatActivity {
         } else if (mode == MODE_EDIT) {
             AlarmHelper.getInstance(this).update(alarm);
         }
+        finish();
+    }
+
+    private void deleteAlarm() {
+        AlarmHelper.getInstance(this).delete(new AlarmObject(eventName.getText().toString()));
         finish();
     }
 
