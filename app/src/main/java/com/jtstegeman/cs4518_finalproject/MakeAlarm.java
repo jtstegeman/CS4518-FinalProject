@@ -87,7 +87,19 @@ public class MakeAlarm extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch(item.getItemId()) {
+            case R.id.action_cancel:
+                finish();
+                return true;
+            case R.id.action_save:
+                confirmNewAlarm();
+                return true;
+            case R.id.action_delete:
+                deleteAlarm();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void selectNewLocation(View v) {
@@ -133,10 +145,7 @@ public class MakeAlarm extends AppCompatActivity {
         picker.show(getFragmentManager(), "timePicker");
     }
 
-    public void cancelNewAlarm(View v) {
-        finish();
-    }
-    public void confirmNewAlarm(View v) {
+    private void confirmNewAlarm() {
         AlarmObject alarm = new AlarmObject(eventName.getText().toString());
         alarm.setLocation(locationName.getText().toString());
         alarm.setTime(calendar.getTime());
@@ -146,6 +155,10 @@ public class MakeAlarm extends AppCompatActivity {
             AlarmHelper.getInstance(this).update(alarm);
         }
         finish();
+    }
+
+    private void deleteAlarm() {
+        AlarmHelper.getInstance(this).delete(new AlarmObject(eventName.getText().toString()));
     }
 
     private void updateNewDate() {
