@@ -43,7 +43,7 @@ public class MakeAlarm extends AppCompatActivity {
     }
 
     public void cancelNewAlarm(View v){
-
+        finish();
     }
     public void confirmNewAlarm(View v){
 
