@@ -134,7 +134,12 @@ public class CurrentAlarms extends AppCompatActivity {
         public AlarmHolder(View itemView){
 
             super(itemView);
-            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(TrackAlarm.getAlarmIntent(CurrentAlarms.this, mAlarm));
+                }
+            });
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -142,6 +147,8 @@ public class CurrentAlarms extends AppCompatActivity {
                     return true;
                 }
             });
+
+
 
             mTime = (TextView) itemView.findViewById(R.id.dataTime);
             mLocation = (TextView) itemView.findViewById(R.id.dataLocation);
