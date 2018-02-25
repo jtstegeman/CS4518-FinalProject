@@ -46,6 +46,7 @@ public class CurrentAlarms extends AppCompatActivity {
             finish();
         }
         UserLocation.getInstance(this).refresh(this);
+        WeatherManager.getInstance().checkWeather(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_alarms);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -162,6 +163,8 @@ public class CurrentAlarms extends AppCompatActivity {
         public void onClick(View v) {
            // Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
            // startActivity(intent);
+            WeatherManager.getInstance().checkWeather(getApplicationContext());
+            System.out.println(WeatherManager.getInstance().getCurrentWeather());
         }
     }
 
@@ -196,4 +199,6 @@ public class CurrentAlarms extends AppCompatActivity {
             mAlarms = alarms;
         }
     }
+
+
 }
