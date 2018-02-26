@@ -158,13 +158,18 @@ public class CurrentAlarms extends AppCompatActivity {
             mName.setText(mAlarm.getName());
 
             int hours = mAlarm.getTime().getHours();
+            String timeOfDay = "AM";
             if(hours > 12){
                 hours %= 12;
+                timeOfDay = "PM";
             } else if (hours == 0){
                 hours = 12;
+                timeOfDay = "AM";
+            } else if (hours == 12){
+                timeOfDay = "PM";
             }
 
-            mTime.setText(String.format(getString(R.string.time_fs), hours, mAlarm.getTime().getMinutes()));
+            mTime.setText(String.format(getString(R.string.time_fs), hours, mAlarm.getTime().getMinutes(), timeOfDay));
             mLocation.setText(mAlarm.getLocation());
 
             Location mLocation = UserLocation.getLocation(CurrentAlarms.this);
