@@ -24,6 +24,8 @@ import com.jtstegeman.cs4518_finalproject.weather.WeatherManager;
 import com.jtstegeman.cs4518_finalproject.weather.WeatherType;
 
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TrackAlarm extends AppCompatActivity {
 
@@ -42,12 +44,48 @@ public class TrackAlarm extends AppCompatActivity {
 
     private Button  mGoogleMapsButton;
 
+    private Timer timer;
+
+    private AlarmObject alarm;
+
 
 
     public static Intent getAlarmIntent(Context context, AlarmObject alarm) {
         Intent intent = new Intent(context, TrackAlarm.class);
         intent.putExtra(EXTRA_ALARM_NAME, alarm.getName());
         return intent;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Location mLocation = UserLocation.getLocation(TrackAlarm.this);
+                ETASystem mEstimator = ETAFactory.getDefaultETASystem(TrackAlarm.this);
+                Location destLocation = new Location("");
+                final double mlatitude = alarm.getLatitude();
+                final double mlongitude = alarm.getLongitude();
+                destLocation.setLatitude(mlatitude);
+                destLocation.setLongitude(mlongitude);
+                currentActivity = DetectedActivitiesIntentService.getCurrentActivity(TrackAlarm.this);
+
+                int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
+
+                Time time = new Time(ETA);
+
+                String sETA = time.getHours() + " hours " + time.getMinutes() + " minutes " + time.getSeconds() + " seconds ";
+
+                mETATextView.setText(sETA);
+            }
+        }, 0, 1000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        timer.cancel();
     }
 
     @Override
@@ -63,9 +101,11 @@ public class TrackAlarm extends AppCompatActivity {
         weatherImage = findViewById(R.id.weatherImage);
         activityImage = findViewById(R.id.activityImage);
 
+        timer = new Timer();
+
         Intent seed = getIntent();
 
-        AlarmObject alarm = AlarmHelper.getInstance(this).get(seed.getStringExtra(EXTRA_ALARM_NAME));
+        alarm = AlarmHelper.getInstance(this).get(seed.getStringExtra(EXTRA_ALARM_NAME));
 
         getSupportActionBar().setTitle(alarm.getName());
         Location mLocation = UserLocation.getLocation(this);
