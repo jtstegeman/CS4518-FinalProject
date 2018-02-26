@@ -5,13 +5,6 @@
     android:paddingTop="8dp"
     android:paddingBottom="8dp">
 
-    <TextView
-        android:id="@+id/eventName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="20sp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +12,13 @@
         android:paddingLeft="@dimen/horizontalPadding"
         android:paddingRight="@dimen/horizontalPadding"
         android:paddingTop="@dimen/verticalPadding">
+
+        <TextView
+            android:id="@+id/eventName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
