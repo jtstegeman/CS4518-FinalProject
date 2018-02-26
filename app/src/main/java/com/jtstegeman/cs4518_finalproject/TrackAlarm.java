@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
@@ -21,6 +23,8 @@ import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 import com.jtstegeman.cs4518_finalproject.weather.WeatherManager;
 import com.jtstegeman.cs4518_finalproject.weather.WeatherType;
 
+import java.util.Date;
+
 public class TrackAlarm extends AppCompatActivity {
 
     public static final String EXTRA_ALARM_NAME = "alarm_name";
@@ -32,6 +36,8 @@ public class TrackAlarm extends AppCompatActivity {
     private TextView mLocationTextView;
     private TextView mActionTextView;
     private TextView mWeatherTextView;
+    private ImageView weatherImage;
+    private ImageView activityImage;
 
 
     private Button  mGoogleMapsButton;
@@ -54,6 +60,8 @@ public class TrackAlarm extends AppCompatActivity {
         mActionTextView = findViewById(R.id.Action_textview);
         mGoogleMapsButton = findViewById(R.id.google_maps_button);
         mWeatherTextView = findViewById(R.id.Weather_textview);
+        weatherImage = findViewById(R.id.weatherImage);
+        activityImage = findViewById(R.id.activityImage);
 
         Intent seed = getIntent();
 
@@ -80,19 +88,24 @@ public class TrackAlarm extends AppCompatActivity {
 
         switch(currentActivity){
             case BIKING:
-                mActionTextView.setText("You are biking");
+                mActionTextView.setText("Biking");
+                activityImage.setImageDrawable(getDrawable(R.drawable.ic_directions_bike_black_24dp));
                 break;
             case DRIVING:
-                mActionTextView.setText("You are driving");
+                mActionTextView.setText("Driving");
+                activityImage.setImageDrawable(getDrawable(R.drawable.ic_drive_eta_black_24dp));
                 break;
             case RUNNING:
-                mActionTextView.setText("You are running");
+                mActionTextView.setText("Running");
+                activityImage.setImageDrawable(getDrawable(R.drawable.ic_directions_run_black_24dp));
                 break;
             case WALKING:
-                mActionTextView.setText("You are walking");
+                mActionTextView.setText("Walking");
+                activityImage.setImageDrawable(getDrawable(R.drawable.ic_directions_walk_black_24dp));
                 break;
             case STATIONARY:
-                mActionTextView.setText("You aren't moving");
+                mActionTextView.setText("Stationary");
+                activityImage.setImageDrawable(getDrawable(R.drawable.ic_sofa_black_24dp));
                 break;
         }
 
@@ -101,12 +114,21 @@ public class TrackAlarm extends AppCompatActivity {
         switch (weather){
             case RAIN:
                 mWeatherTextView.setText(R.string.raining_out);
+                weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_rainy_black_24dp));
                 break;
             case SNOW:
                 mWeatherTextView.setText(R.string.snowing_out);
+                weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_snowy_black_24dp));
                 break;
             default:
                 mWeatherTextView.setText(R.string.clear_out);
+                int timeHours = new Date().getHours();
+                if(timeHours >= 21 || timeHours <= 8){
+                    // Night
+                    weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_night_black_24dp));
+                } else {
+                    weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_sunny_black_24dp));
+                }
                 break;
         }
 
