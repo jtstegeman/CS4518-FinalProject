@@ -9,7 +9,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="location">Location</string>
     <string name="time">Time</string>
-    <string name="time_fs">%02d:%02d</string>
+    <string name="time_fs">%d:%02d</string>
     <string name="date_picker_title">\"Meeting Time\"</string>
     <string name="location_nick_name">Location (Nick Name)</string>
     <string name="event_name">Event Name</string>

@@ -156,7 +156,15 @@ public class CurrentAlarms extends AppCompatActivity {
             mAlarm = alarm;
 
             mName.setText(mAlarm.getName());
-            mTime.setText(String.format(getString(R.string.time_fs), mAlarm.getTime().getHours(), mAlarm.getTime().getMinutes()));
+
+            int hours = mAlarm.getTime().getHours();
+            if(hours > 12){
+                hours %= 12;
+            } else if (hours == 0){
+                hours = 12;
+            }
+
+            mTime.setText(String.format(getString(R.string.time_fs), hours, mAlarm.getTime().getMinutes()));
             mLocation.setText(mAlarm.getLocation());
 
             Location mLocation = UserLocation.getLocation(CurrentAlarms.this);
@@ -169,11 +177,13 @@ public class CurrentAlarms extends AppCompatActivity {
             currentActivity = DetectedActivitiesIntentService.getCurrentActivity(CurrentAlarms.this);
             int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
 
-            int hours = ETA / 3600;
-            int minutes = (ETA - hours * 3600) / 60;
-            int seconds = ETA - hours * 3600 - minutes * 60;
+            Time etaTime = new Time(ETA);
 
-            String sETA = hours + " hours " + minutes + " minutes " + seconds + " seconds";
+//            int hours = ETA / 3600;
+//            int minutes = (ETA - hours * 3600) / 60;
+//            int seconds = ETA - hours * 3600 - minutes * 60;
+
+            String sETA = etaTime.getHours() + " hours " + etaTime.getMinutes() + " minutes " + etaTime.getSeconds() + " seconds";
             mETA.setText(sETA);
         }
     }
