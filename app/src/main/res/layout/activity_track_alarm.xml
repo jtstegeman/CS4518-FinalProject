@@ -36,6 +36,14 @@
             android:textSize="24dp"
             android:text="TextView" />
 
+        <TextView
+            android:id="@+id/Weather_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/clear_out"
+            android:textSize="24dp" />
+
         <Button
             android:id="@+id/google_maps_button"
             android:layout_width="match_parent"

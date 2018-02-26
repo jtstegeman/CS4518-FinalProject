@@ -52,4 +52,7 @@
     <string name="pref_weather_summary">Factor the weather into travel times.</string>
     <string name="eta">ETA</string>
     <string name="phone_number_placeholder">Phone numbers (5555555555, 5555555555,</string>
+    <string name="raining_out">It is raining out.</string>
+    <string name="snowing_out">It is snowing out.</string>
+    <string name="clear_out">It is nice and clear out.</string>
 </resources>

@@ -31,6 +31,7 @@ public class TrackAlarm extends AppCompatActivity {
     private TextView mETATextView;
     private TextView mLocationTextView;
     private TextView mActionTextView;
+    private TextView mWeatherTextView;
 
 
     private Button  mGoogleMapsButton;
@@ -48,10 +49,11 @@ public class TrackAlarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_alarm);
 
-        mETATextView = (TextView) findViewById(R.id.ETA_textview);
-        mLocationTextView = (TextView) findViewById(R.id.Location_textview);
-        mActionTextView = (TextView) findViewById(R.id.Action_textview);
-        mGoogleMapsButton = (Button) findViewById(R.id.google_maps_button);
+        mETATextView = findViewById(R.id.ETA_textview);
+        mLocationTextView = findViewById(R.id.Location_textview);
+        mActionTextView = findViewById(R.id.Action_textview);
+        mGoogleMapsButton = findViewById(R.id.google_maps_button);
+        mWeatherTextView = findViewById(R.id.Weather_textview);
 
         Intent seed = getIntent();
 
@@ -69,32 +71,45 @@ public class TrackAlarm extends AppCompatActivity {
 
         int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
 
-        int hours = ETA/3600;
-        int minutes = (ETA - hours*3600)/60;
-        int seconds = ETA - hours*3600 - minutes*60;
+        Time time = new Time(ETA);
 
-        String sETA = hours + " hours " + minutes + " minutes " + seconds + " seconds ";
+        String sETA = time.getHours() + " hours " + time.getMinutes() + " minutes " + time.getSeconds() + " seconds ";
 
         mETATextView.setText(sETA);
         mLocationTextView.setText(alarm.getLocation());
 
         switch(currentActivity){
             case BIKING:
-                mActionTextView.setText("Biking");
+                mActionTextView.setText("You are biking");
                 break;
             case DRIVING:
-                mActionTextView.setText("Driving");
+                mActionTextView.setText("You are driving");
                 break;
             case RUNNING:
-                mActionTextView.setText("Running");
+                mActionTextView.setText("You are running");
                 break;
             case WALKING:
-                mActionTextView.setText("Walking");
+                mActionTextView.setText("You are walking");
                 break;
             case STATIONARY:
-                mActionTextView.setText("Stationary");
+                mActionTextView.setText("You aren't moving");
                 break;
         }
+
+        WeatherType weather = WeatherManager.getInstance(this).getWeather(this);
+
+        switch (weather){
+            case RAIN:
+                mWeatherTextView.setText(R.string.raining_out);
+                break;
+            case SNOW:
+                mWeatherTextView.setText(R.string.snowing_out);
+                break;
+            default:
+                mWeatherTextView.setText(R.string.clear_out);
+                break;
+        }
+
 
         mGoogleMapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
