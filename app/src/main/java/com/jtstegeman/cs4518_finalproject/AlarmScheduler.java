@@ -14,14 +14,13 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.jtstegeman.cs4518_finalproject.activityrecognition.ActivityRecognitionSystem;
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETAFactory;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETASystem;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 import com.jtstegeman.cs4518_finalproject.sms.TextMessageHandler;
-import com.jtstegeman.cs4518_finalproject.weather.WeatherManager;
-import com.jtstegeman.cs4518_finalproject.weather.WeatherType;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

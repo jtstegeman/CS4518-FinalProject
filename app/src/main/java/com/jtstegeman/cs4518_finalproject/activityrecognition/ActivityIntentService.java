@@ -1,4 +1,4 @@
-package com.jtstegeman.cs4518_finalproject;
+package com.jtstegeman.cs4518_finalproject.activityrecognition;
 
 import android.app.IntentService;
 import android.content.Intent;

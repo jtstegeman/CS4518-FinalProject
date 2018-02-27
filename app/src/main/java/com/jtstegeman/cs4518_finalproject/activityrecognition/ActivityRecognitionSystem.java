@@ -1,17 +1,13 @@
-package com.jtstegeman.cs4518_finalproject;
+package com.jtstegeman.cs4518_finalproject.activityrecognition;
 
-import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.location.ActivityRecognitionClient;
-import com.google.android.gms.location.ActivityRecognitionResult;
-import com.google.android.gms.location.DetectedActivity;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 
 /**

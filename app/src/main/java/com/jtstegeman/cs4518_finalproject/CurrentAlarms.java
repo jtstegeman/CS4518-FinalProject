@@ -3,12 +3,10 @@ package com.jtstegeman.cs4518_finalproject;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,14 +19,13 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jtstegeman.cs4518_finalproject.activityrecognition.ActivityRecognitionSystem;
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETAFactory;
 import com.jtstegeman.cs4518_finalproject.weather.WeatherManager;
-import com.jtstegeman.cs4518_finalproject.etaSystem.CrowFliesETAEstimator;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETASystem;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
-import com.jtstegeman.cs4518_finalproject.weather.WeatherType;
 
 import java.util.List;
 import java.util.Timer;

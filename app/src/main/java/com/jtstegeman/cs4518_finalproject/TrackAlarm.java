@@ -2,9 +2,7 @@ package com.jtstegeman.cs4518_finalproject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Location;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -14,17 +12,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jtstegeman.cs4518_finalproject.activityrecognition.ActivityRecognitionSystem;
 import com.jtstegeman.cs4518_finalproject.database.AlarmHelper;
 import com.jtstegeman.cs4518_finalproject.database.AlarmObject;
-import com.jtstegeman.cs4518_finalproject.etaSystem.CrowFliesETAEstimator;
-import com.jtstegeman.cs4518_finalproject.etaSystem.ETAEstimator;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETAFactory;
 import com.jtstegeman.cs4518_finalproject.etaSystem.ETASystem;
 import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 import com.jtstegeman.cs4518_finalproject.weather.WeatherManager;
 import com.jtstegeman.cs4518_finalproject.weather.WeatherType;
 
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
