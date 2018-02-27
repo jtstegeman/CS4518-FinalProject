@@ -27,19 +27,16 @@ import java.util.TimerTask;
 
 public class WeatherManager {
 
-    private Context mContext;
-
     private static WeatherManager instance;
 
     private WeatherType lastWeather = null;
     private boolean isNight = false;
 
     public WeatherManager(final Context context){
-        mContext = context;
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                checkWeather(mContext);
+                checkWeather(context);
             }
         };
         Timer timer = new Timer();
