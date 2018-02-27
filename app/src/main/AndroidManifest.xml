@@ -36,8 +36,7 @@
 
         <receiver android:name=".AlarmScheduler" />
 
-        <service android:name=".DetectedActivitiesIntentService" />
-        <service android:name=".BackgroundService" />
+        <service android:name=".ActivityIntentService"/>
 
         <activity
             android:name=".SettingsActivity"

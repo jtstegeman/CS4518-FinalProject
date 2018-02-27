@@ -48,9 +48,10 @@ public class CurrentAlarms extends AppCompatActivity {
             startActivity(i);
             finish();
         }
-        if(!BackgroundService.isRunning){
-            startService(new Intent(this, BackgroundService.class));
-        }
+//        if(!BackgroundService.isRunning){
+//            startService(new Intent(this, BackgroundService.class));
+//        }
+        ActivityRecognitionSystem.getInstance(this);
         UserLocation.getInstance(this).refresh(this);
         WeatherManager.getInstance(this);
         super.onCreate(savedInstanceState);
@@ -199,7 +200,7 @@ public class CurrentAlarms extends AppCompatActivity {
             final double mlongitude = alarm.getLongitude();
             destLocation.setLatitude(mlatitude);
             destLocation.setLongitude(mlongitude);
-            currentActivity = DetectedActivitiesIntentService.getCurrentActivity(CurrentAlarms.this);
+            currentActivity = ActivityRecognitionSystem.getInstance(CurrentAlarms.this).getActivity();//DetectedActivitiesIntentService.getCurrentActivity(CurrentAlarms.this);
             int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
 
             Time etaTime = new Time(ETA);

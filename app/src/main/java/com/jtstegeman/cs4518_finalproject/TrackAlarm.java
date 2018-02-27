@@ -139,13 +139,13 @@ public class TrackAlarm extends AppCompatActivity {
         final double mlongitude = alarm.getLongitude();
         destLocation.setLatitude(mlatitude);
         destLocation.setLongitude(mlongitude);
-        currentActivity = DetectedActivitiesIntentService.getCurrentActivity(TrackAlarm.this);
+        currentActivity = ActivityRecognitionSystem.getInstance(this).getActivity();
 
         int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
 
         Time time = new Time(ETA);
 
-        String sETA = time.getHours() + " hours " + time.getMinutes() + " minutes " + time.getSeconds() + " seconds ";
+        String sETA = time.getHours() + " hours " + time.getMinutes() + " minutes "  + time.getSeconds() + " seconds ";
 
         mETATextView.setText(sETA);
         mLocationTextView.setText(alarm.getLocation());
