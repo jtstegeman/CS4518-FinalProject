@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
@@ -37,23 +38,27 @@ public class DetectedActivitiesIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
         ArrayList<DetectedActivity> detectedActivities = (ArrayList) result.getProbableActivities();
-        DetectedActivity best=null;
-        for (DetectedActivity activity : detectedActivities) {
-            if ((best==null || best.getConfidence()<activity.getConfidence()) ){
-                if (activity.getType() == DetectedActivity.STILL){
-                    best = activity;
-                }
-                if (activity.getType() == DetectedActivity.WALKING && activity.getConfidence()>40){
-                    best = activity;
-                }
-                if (activity.getType() == DetectedActivity.RUNNING && activity.getConfidence()>40){
-                    best = activity;
-                }
-                if (activity.getType() == DetectedActivity.ON_BICYCLE && activity.getConfidence()>40){
-                    best = activity;
-                }
-            }
-        }
+//        DetectedActivity best=null;
+        DetectedActivity best = result.getMostProbableActivity();
+//        for (DetectedActivity activity : detectedActivities) {
+//            if ((best==null || best.getConfidence()<activity.getConfidence()) ){
+//                if (activity.getType() == DetectedActivity.STILL){
+//                    best = activity;
+//                }
+//                if (activity.getType() == DetectedActivity.WALKING && activity.getConfidence()>40){
+//                    best = activity;
+//                }
+//                if (activity.getType() == DetectedActivity.RUNNING && activity.getConfidence()>40){
+//                    best = activity;
+//                }
+//                if (activity.getType() == DetectedActivity.ON_BICYCLE && activity.getConfidence()>40){
+//                    best = activity;
+//                }
+//            }
+//        }
+//        if(best != null && best.getConfidence() < 40){
+//            best = null;
+//        }
         if (best!=null)
             broadcastActivity(best);
     }
@@ -77,10 +82,11 @@ public class DetectedActivitiesIntentService extends IntentService {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
-    public static void setCurrentActivity(Context ctx, UserActivity acivity){
-        lastAcivity = acivity;
+    public static void setCurrentActivity(Context ctx, UserActivity activity){
+        lastAcivity = activity;
         SharedPreferences settings = ctx.getSharedPreferences("App", Context.MODE_PRIVATE);
-        settings.edit().putString("curSpeed", acivity.name());
+        settings.edit().putString("curSpeed", activity.name());
+        Log.i("DetectedActivity", "Activity: " + activity);
     }
 
     public static UserActivity getCurrentActivity(Context ctx){

@@ -48,6 +48,9 @@ public class CurrentAlarms extends AppCompatActivity {
             startActivity(i);
             finish();
         }
+        if(!BackgroundService.isRunning){
+            startService(new Intent(this, BackgroundService.class));
+        }
         UserLocation.getInstance(this).refresh(this);
         WeatherManager.getInstance(this);
         super.onCreate(savedInstanceState);
