@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">CS4518-FinalProject</string>
+    <string name="app_name">Remind Me</string>
     <string name="action_settings">Settings</string>
 
     <string name="google_maps_key">AIzaSyDfsCirleMY2uyOT37KihPPvd_Ay5PXPvU</string>
     <string name="google_places_key">AIzaSyBNAJikUh6Y7W4WIZiLixiJ7BfJjR-EYMU</string>
+    <string name="google_awareness_key">AIzaSyBK8NlmzFYLckWRQWcGuDlo4vnOrDnh_G4</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
