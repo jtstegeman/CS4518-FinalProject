@@ -76,7 +76,7 @@ public class AlarmScheduler extends BroadcastReceiver {
         Location targetLocation = new Location("");
         targetLocation.setLatitude(a.getLatitude());
         targetLocation.setLongitude(a.getLongitude());
-        UserActivity currentActivity = ActivityRecognitionSystem.getInstance(ctx).getActivity();
+        UserActivity currentActivity = ActivityRecognitionSystem.getInstance(ctx).getActivity(ctx);
 
         long travelSeconds = eta.calculateTravelTime(targetLocation, UserLocation.getLocation(ctx), currentActivity);
 
@@ -184,7 +184,7 @@ public class AlarmScheduler extends BroadcastReceiver {
         Location targetLocation = new Location("");
         targetLocation.setLatitude(a.getLatitude());
         targetLocation.setLongitude(a.getLongitude());
-        UserActivity currentActivity = ActivityRecognitionSystem.getInstance(ctx).getActivity();
+        UserActivity currentActivity = ActivityRecognitionSystem.getInstance(ctx).getActivity(ctx);
         long travelSeconds = eta.calculateTravelTime(targetLocation, UserLocation.getLocation(ctx), currentActivity);
 
         long travelMillis = travelSeconds*1000;

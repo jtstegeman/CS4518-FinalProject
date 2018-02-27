@@ -197,7 +197,7 @@ public class CurrentAlarms extends AppCompatActivity {
             final double mlongitude = alarm.getLongitude();
             destLocation.setLatitude(mlatitude);
             destLocation.setLongitude(mlongitude);
-            currentActivity = ActivityRecognitionSystem.getInstance(CurrentAlarms.this).getActivity();//DetectedActivitiesIntentService.getCurrentActivity(CurrentAlarms.this);
+            currentActivity = ActivityRecognitionSystem.getInstance(CurrentAlarms.this).getActivity(CurrentAlarms.this);
             int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
 
             Time etaTime = new Time(ETA);

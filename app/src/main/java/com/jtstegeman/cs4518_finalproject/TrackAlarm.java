@@ -135,7 +135,7 @@ public class TrackAlarm extends AppCompatActivity {
         final double mlongitude = alarm.getLongitude();
         destLocation.setLatitude(mlatitude);
         destLocation.setLongitude(mlongitude);
-        currentActivity = ActivityRecognitionSystem.getInstance(this).getActivity();
+        currentActivity = ActivityRecognitionSystem.getInstance(this).getActivity(this);
 
         int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
 

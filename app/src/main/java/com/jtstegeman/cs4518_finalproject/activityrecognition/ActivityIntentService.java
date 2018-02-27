@@ -36,6 +36,6 @@ public class ActivityIntentService extends IntentService{
         } else if (activity.getType()==DetectedActivity.ON_BICYCLE){
             lastKnownActivity = UserActivity.BIKING;
         }
-        ActivityRecognitionSystem.getInstance(this).setActivity(lastKnownActivity);
+        ActivityRecognitionSystem.getInstance(this).setActivity(lastKnownActivity, this);
     }
 }

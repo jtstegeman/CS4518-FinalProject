@@ -16,15 +16,13 @@ import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 
 public class ActivityRecognitionSystem {
 
-    private Context mContext;
     private static ActivityRecognitionSystem instance;
     private UserActivity lastActivity;
 
     private final String PERSISTENT_ACTIVITY_KEY = "activity";
 
     private ActivityRecognitionSystem(final Context context){
-        mContext = context;
-        checkActivity();
+        checkActivity(context);
     }
 
     public static ActivityRecognitionSystem getInstance(final Context context){
@@ -32,33 +30,29 @@ public class ActivityRecognitionSystem {
             instance = new ActivityRecognitionSystem(context);
         }
 
-        if(instance.mContext == null){
-            instance.mContext = context;
-        }
-
         return instance;
     }
 
-    private void checkActivity(){
-        ActivityRecognitionClient mActivityRecognitionClient = new ActivityRecognitionClient(mContext);
-        Intent mIntent = new Intent(mContext, ActivityIntentService.class);
-        PendingIntent mPendingIntent = PendingIntent.getService(mContext, 1, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    private void checkActivity(Context context){
+        ActivityRecognitionClient mActivityRecognitionClient = new ActivityRecognitionClient(context);
+        Intent mIntent = new Intent(context, ActivityIntentService.class);
+        PendingIntent mPendingIntent = PendingIntent.getService(context, 1, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mActivityRecognitionClient.requestActivityUpdates(3000, mPendingIntent);
     }
 
-    public void setActivity(UserActivity activity){
+    public void setActivity(UserActivity activity, Context context){
         lastActivity = activity;
         Log.i("ActivityRecognition", "Activity: " + lastActivity);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit().putString(PERSISTENT_ACTIVITY_KEY, activity.name()).apply();
     }
 
-    public UserActivity getActivity(){
+    public UserActivity getActivity(Context context){
         if(lastActivity != null){
             return lastActivity;
         }
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return UserActivity.valueOf(preferences.getString(PERSISTENT_ACTIVITY_KEY, UserActivity.STATIONARY.name()));
     }
 
