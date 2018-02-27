@@ -59,6 +59,7 @@ public class DetectedActivitiesIntentService extends IntentService {
 //        if(best != null && best.getConfidence() < 40){
 //            best = null;
 //        }
+
         if (best!=null)
             broadcastActivity(best);
     }
@@ -67,7 +68,7 @@ public class DetectedActivitiesIntentService extends IntentService {
         UserActivity lastKnownActivity = UserActivity.STATIONARY;
         if (activity.getType()==DetectedActivity.STILL){
             lastKnownActivity = UserActivity.STATIONARY;
-        } else if (activity.getType()==DetectedActivity.WALKING){
+        } else if (activity.getType()==DetectedActivity.WALKING || activity.getType() == DetectedActivity.ON_FOOT){
             lastKnownActivity = UserActivity.WALKING;
         } else if (activity.getType()==DetectedActivity.RUNNING){
             lastKnownActivity = UserActivity.RUNNING;
@@ -76,6 +77,9 @@ public class DetectedActivitiesIntentService extends IntentService {
         } else if (activity.getType()==DetectedActivity.ON_BICYCLE){
             lastKnownActivity = UserActivity.BIKING;
         }
+
+        Log.i("DetectedActivity", "Activity: " + lastKnownActivity + " confidence: " + activity.getConfidence());
+
         setCurrentActivity(this, lastKnownActivity);
         Intent intent = new Intent(INTENT_STR);
         intent.putExtra("type", activity.getType());
@@ -86,7 +90,6 @@ public class DetectedActivitiesIntentService extends IntentService {
         lastAcivity = activity;
         SharedPreferences settings = ctx.getSharedPreferences("App", Context.MODE_PRIVATE);
         settings.edit().putString("curSpeed", activity.name());
-        Log.i("DetectedActivity", "Activity: " + activity);
     }
 
     public static UserActivity getCurrentActivity(Context ctx){
