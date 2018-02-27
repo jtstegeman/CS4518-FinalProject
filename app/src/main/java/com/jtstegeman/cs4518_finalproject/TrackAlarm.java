@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -59,33 +60,11 @@ public class TrackAlarm extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Location mLocation = UserLocation.getLocation(TrackAlarm.this);
-                ETASystem mEstimator = ETAFactory.getDefaultETASystem(TrackAlarm.this);
-                Location destLocation = new Location("");
-                final double mlatitude = alarm.getLatitude();
-                final double mlongitude = alarm.getLongitude();
-                destLocation.setLatitude(mlatitude);
-                destLocation.setLongitude(mlongitude);
-                currentActivity = DetectedActivitiesIntentService.getCurrentActivity(TrackAlarm.this);
-
-                int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
-
-                Time time = new Time(ETA);
-
-                String sETA = time.getHours() + " hours " + time.getMinutes() + " minutes " + time.getSeconds() + " seconds ";
-
-                mETATextView.setText(sETA);
-            }
-        }, 0, 1000);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        timer.cancel();
     }
 
     @Override
@@ -108,67 +87,9 @@ public class TrackAlarm extends AppCompatActivity {
         alarm = AlarmHelper.getInstance(this).get(seed.getStringExtra(EXTRA_ALARM_NAME));
 
         getSupportActionBar().setTitle(alarm.getName());
-        Location mLocation = UserLocation.getLocation(this);
-        ETASystem mEstimator = ETAFactory.getDefaultETASystem(this);
-        Location destLocation = new Location("");
+
         final double mlatitude = alarm.getLatitude();
         final double mlongitude = alarm.getLongitude();
-        destLocation.setLatitude(mlatitude);
-        destLocation.setLongitude(mlongitude);
-        currentActivity = DetectedActivitiesIntentService.getCurrentActivity(this);
-
-        int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
-
-        Time time = new Time(ETA);
-
-        String sETA = time.getHours() + " hours " + time.getMinutes() + " minutes " + time.getSeconds() + " seconds ";
-
-        mETATextView.setText(sETA);
-        mLocationTextView.setText(alarm.getLocation());
-
-        switch(currentActivity){
-            case BIKING:
-                mActionTextView.setText("Biking");
-                activityImage.setImageDrawable(getDrawable(R.drawable.ic_directions_bike_black_24dp));
-                break;
-            case DRIVING:
-                mActionTextView.setText("Driving");
-                activityImage.setImageDrawable(getDrawable(R.drawable.ic_drive_eta_black_24dp));
-                break;
-            case RUNNING:
-                mActionTextView.setText("Running");
-                activityImage.setImageDrawable(getDrawable(R.drawable.ic_directions_run_black_24dp));
-                break;
-            case WALKING:
-                mActionTextView.setText("Walking");
-                activityImage.setImageDrawable(getDrawable(R.drawable.ic_directions_walk_black_24dp));
-                break;
-            case STATIONARY:
-                mActionTextView.setText("Stationary");
-                activityImage.setImageDrawable(getDrawable(R.drawable.ic_sofa_black_24dp));
-                break;
-        }
-
-        WeatherType weather = WeatherManager.getInstance(this).getWeather(this);
-
-        switch (weather){
-            case RAIN:
-                mWeatherTextView.setText(R.string.raining_out);
-                weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_rainy_black_24dp));
-                break;
-            case SNOW:
-                mWeatherTextView.setText(R.string.snowing_out);
-                weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_snowy_black_24dp));
-                break;
-            default:
-                mWeatherTextView.setText(R.string.clear_out);
-                if(WeatherManager.getInstance(this).isNight()){
-                    weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_night_black_24dp));
-                } else {
-                    weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_sunny_black_24dp));
-                }
-                break;
-        }
 
 
         mGoogleMapsButton.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +123,89 @@ public class TrackAlarm extends AppCompatActivity {
             }
         });
 
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+               new UIUpdater().execute();
+            }
+        }, 0, 1000);
+    }
 
+    private void updateUI(){
+        Location mLocation = UserLocation.getLocation(TrackAlarm.this);
+        ETASystem mEstimator = ETAFactory.getDefaultETASystem(TrackAlarm.this);
+        Location destLocation = new Location("");
+        final double mlatitude = alarm.getLatitude();
+        final double mlongitude = alarm.getLongitude();
+        destLocation.setLatitude(mlatitude);
+        destLocation.setLongitude(mlongitude);
+        currentActivity = DetectedActivitiesIntentService.getCurrentActivity(TrackAlarm.this);
+
+        int ETA = mEstimator.calculateTravelTime(destLocation, mLocation, currentActivity);
+
+        Time time = new Time(ETA);
+
+        String sETA = time.getHours() + " hours " + time.getMinutes() + " minutes " + time.getSeconds() + " seconds ";
+
+        mETATextView.setText(sETA);
+        mLocationTextView.setText(alarm.getLocation());
+
+        switch(currentActivity){
+            case BIKING:
+                mActionTextView.setText("Biking");
+                activityImage.setImageDrawable(getDrawable(R.drawable.ic_directions_bike_black_24dp));
+                break;
+            case DRIVING:
+                mActionTextView.setText("Driving");
+                activityImage.setImageDrawable(getDrawable(R.drawable.ic_drive_eta_black_24dp));
+                break;
+            case RUNNING:
+                mActionTextView.setText("Running");
+                activityImage.setImageDrawable(getDrawable(R.drawable.ic_directions_run_black_24dp));
+                break;
+            case WALKING:
+                mActionTextView.setText("Walking");
+                activityImage.setImageDrawable(getDrawable(R.drawable.ic_directions_walk_black_24dp));
+                break;
+            case STATIONARY:
+                mActionTextView.setText("Stationary");
+                activityImage.setImageDrawable(getDrawable(R.drawable.ic_sofa_black_24dp));
+                break;
+        }
+
+        WeatherType weather = WeatherManager.getInstance(TrackAlarm.this).getWeather(TrackAlarm.this);
+
+        switch (weather){
+            case RAIN:
+                mWeatherTextView.setText(R.string.raining_out);
+                weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_rainy_black_24dp));
+                break;
+            case SNOW:
+                mWeatherTextView.setText(R.string.snowing_out);
+                weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_snowy_black_24dp));
+                break;
+            default:
+                mWeatherTextView.setText(R.string.clear_out);
+                if(WeatherManager.getInstance(TrackAlarm.this).isNight()){
+                    weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_night_black_24dp));
+                } else {
+                    weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_sunny_black_24dp));
+                }
+                break;
+        }
+    }
+
+    private class UIUpdater extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            updateUI();
+        }
     }
 }

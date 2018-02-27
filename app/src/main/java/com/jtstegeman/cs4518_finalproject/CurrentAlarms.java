@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -30,12 +31,16 @@ import com.jtstegeman.cs4518_finalproject.etaSystem.UserActivity;
 import com.jtstegeman.cs4518_finalproject.weather.WeatherType;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CurrentAlarms extends AppCompatActivity {
 
     private AlarmAdapter mAdapter;
     private RecyclerView mAlarmRecyclerView;
     private UserActivity currentActivity;
+    private Timer uiUpdateTimer;
+    private TimerTask uiUpdateTask;
 
     protected void onCreate(Bundle savedInstanceState) {
         if (Settings.isFirst(this)) {
@@ -62,7 +67,14 @@ public class CurrentAlarms extends AppCompatActivity {
         mAlarmRecyclerView = this.findViewById(R.id.alarm_recycler_view);
         mAlarmRecyclerView.setLayoutManager(new LinearLayoutManager(getParent()));
 
-        updateUI();
+        uiUpdateTimer = new Timer();
+        uiUpdateTask = new TimerTask() {
+            @Override
+            public void run() {
+                new UIUpdater().execute();
+            }
+        };
+        uiUpdateTimer.scheduleAtFixedRate(uiUpdateTask, 0, 1000);
     }
 
     @Override
@@ -76,7 +88,12 @@ public class CurrentAlarms extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        updateUI();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
 
     @Override
@@ -220,6 +237,20 @@ public class CurrentAlarms extends AppCompatActivity {
 
         public void setAlarms(List<AlarmObject> alarms) {
             mAlarms = alarms;
+        }
+    }
+
+    private class UIUpdater extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            updateUI();
         }
     }
 
