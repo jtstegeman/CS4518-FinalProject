@@ -10,7 +10,10 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.awareness.Awareness;
+import com.google.android.gms.awareness.fence.TimeFence;
+import com.google.android.gms.awareness.snapshot.TimeIntervalsResponse;
 import com.google.android.gms.awareness.snapshot.WeatherResponse;
+import com.google.android.gms.awareness.state.TimeIntervals;
 import com.google.android.gms.awareness.state.Weather;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +32,7 @@ public class WeatherManager {
     private static WeatherManager instance;
 
     private WeatherType lastWeather = null;
+    private boolean isNight = false;
 
     public WeatherManager(final Context context){
         mContext = context;
@@ -60,19 +64,47 @@ public class WeatherManager {
         return lastWeather;
     }
 
-    private void checkWeather(Context context) {
+    private void checkWeather(final Context context) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED) {
+            Awareness.getSnapshotClient(context).getTimeIntervals().addOnCompleteListener(new OnCompleteListener<TimeIntervalsResponse>() {
+                @Override
+                public void onComplete(@NonNull Task<TimeIntervalsResponse> task) {
+                    TimeIntervalsResponse response = task.getResult();
+                    TimeIntervals timeIntervals = response.getTimeIntervals();
+                    int[] intervals = timeIntervals.getTimeIntervals();
+
+                    boolean found = false;
+                    for(int timeInterval: intervals){
+                        if(timeInterval == TimeFence.TIME_INTERVAL_NIGHT){
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    setNight(found);
+
+                    Log.i("WeatherManager", "Time of day: " + (isNight ? "night" : "day"));
+                }
+            });
             Awareness.getSnapshotClient(context).getWeather().addOnCompleteListener(new OnCompleteListener<WeatherResponse>() {
                 @Override
                 public void onComplete(@NonNull Task<WeatherResponse> task) {
                     WeatherResponse weatherResponse = task.getResult();
                     Weather weather = weatherResponse.getWeather();
-                    lastWeather = retrieveConditionType(weather.getConditions().length != 0 ? weather.getConditions()[0] : Weather.CONDITION_CLEAR);
+                    setWeather(retrieveConditionType(weather.getConditions().length != 0 ? weather.getConditions()[0] : Weather.CONDITION_CLEAR), context);
                     Log.i("WeatherManager", "Weather: " + lastWeather);
                 }
             });
         }
+    }
+
+    private void setNight(boolean isNight){
+        this.isNight = isNight;
+    }
+
+    public boolean isNight(){
+        return isNight;
     }
 
     private void setWeather(WeatherType weather, Context context){

@@ -162,9 +162,7 @@ public class TrackAlarm extends AppCompatActivity {
                 break;
             default:
                 mWeatherTextView.setText(R.string.clear_out);
-                int timeHours = new Date().getHours();
-                if(timeHours >= 21 || timeHours <= 8){
-                    // Night
+                if(WeatherManager.getInstance(this).isNight()){
                     weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_night_black_24dp));
                 } else {
                     weatherImage.setImageDrawable(getDrawable(R.drawable.ic_weather_sunny_black_24dp));

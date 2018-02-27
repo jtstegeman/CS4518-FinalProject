@@ -22,6 +22,7 @@ public class ETASystem {
     private ETALearningSystem mETALearner;
     private Context mContext;
     private SharedPreferences prefs;
+    private static final double NIGHT_MULTIPLIER = 1.02;
 
     /**
      * A system which calculates the ETA time to a given location.
@@ -60,6 +61,12 @@ public class ETASystem {
         if(weather != null && prefs.getBoolean(mContext.getString(R.string.pref_use_weather_key), true)){
             travelTime *= weather.getTimeMultiplier();
         }
+
+        boolean isNight = WeatherManager.getInstance(mContext).isNight();
+        if(isNight){
+            travelTime *= NIGHT_MULTIPLIER;
+        }
+
         return travelTime;
     }
 }
