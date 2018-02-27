@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FFC400</color>
-    <color name="mapsButton">#FF0000</color>
+    <color name="colorPrimary">#AC2B37</color>
+    <color name="colorPrimaryDark">#AC2B37</color>
+    <color name="colorAccent">#A9B0B7</color>
+    <color name="mapsButton">#000000</color>
 </resources>
