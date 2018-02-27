@@ -15,10 +15,10 @@ public class CrowFliesETAEstimator implements ETAEstimator {
         double distance = current.distanceTo(target) * Math.PI / 2.0; // Used to estimate non-linear distance within 2 standard deviations
 
 
-        if (distance >= 150 && preferences.getBoolean(ETAPrefs.IGNORE_ACTIVITY_LONG_DISTANCE, true)) {
-            if (distance < 300){
+        if (distance >= 1800 && preferences.getBoolean(ETAPrefs.IGNORE_ACTIVITY_LONG_DISTANCE, true)) {
+            if (distance < 2000){
                 activity = UserActivity.RUNNING;
-            } else if (distance < 2000){ // There is probably a better algorithm
+            } else if (distance < 15000){ // There is probably a better algorithm
                 activity = UserActivity.BIKING;
             } else {
                 activity = UserActivity.DRIVING;
