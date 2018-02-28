@@ -172,8 +172,6 @@ public class AlarmScheduler extends BroadcastReceiver {
         String alarmName = intent.getStringExtra(ALARM_SCHED_INTENT_EXTRA_ALARMNAME);
         AlarmObject alarm = AlarmHelper.getInstance(context).get(alarmName);
         if (alarm!=null) {
-            String location = alarm.getLocation();
-            Toast.makeText(context, "Alarm: " + alarmName + " went off at " + location, Toast.LENGTH_LONG).show();
             AlarmScheduler.schedule(alarm, context);
         }
     }
