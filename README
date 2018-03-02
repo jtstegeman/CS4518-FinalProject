@@ -1,0 +1,7 @@
+Final Project - Remind Me
+-------------------------
+
+See team.txt for information about team.
+
+
+To build the app, import it into android studio and run it on an actual device. Create a new alarm by clicking the + FAB and fill out the meeting information. You will begin to receive notification about when to leave.
