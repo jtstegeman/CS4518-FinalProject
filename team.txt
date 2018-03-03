@@ -7,4 +7,4 @@ jtstegeman, Stegeman, John
 
 
 Phone tested on: Google Pixel (1st)
-Computer Tested on: System76 Lemur 8 (Pop!_OS 17.10 - Ubuntu Linux), I7 1.8 GHz CPU, 16GB RAM 
+Computer Tested on: System76 Lemur 8 (Pop!_OS 17.10 - Ubuntu Linux), I7 1.8 GHz CPU, 16GB RAM

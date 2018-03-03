@@ -41,6 +41,7 @@ public class CurrentAlarms extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         if (Settings.isFirst(this)) {
+            System.out.println("HERE");
             Intent i = new Intent(this, TutorialActivity.class);
             startActivity(i);
             finish();
